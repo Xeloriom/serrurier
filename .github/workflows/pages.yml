@@ -35,6 +35,12 @@ jobs:
           npx playwright install --with-deps chromium
           npm run check
 
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
   deploy:
     needs: quality
     if: github.event_name != 'pull_request'
@@ -52,11 +58,6 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
