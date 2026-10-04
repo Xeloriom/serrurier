@@ -134,3 +134,97 @@ test('FAQ assistant answers questions locally and offers direct contact', async 
   await expect(panel).toBeHidden();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 });
+
+test('FAQ assistant handles every supported topic and uncertain questions safely', async ({ page }) => {
+  await page.addInitScript(() => localStorage.removeItem('analytics-consent'));
+  await page.goto('/');
+  await expect(page.locator('#analytics-consent')).toBeVisible();
+  await page.getByRole('button', { name: 'Continuer sans accepter' }).click();
+  await page.getByRole('button', { name: 'Poser une question à l’assistant serrurerie' }).click();
+
+  const input = page.getByLabel('Votre question');
+  const cases = [
+    {
+      question: 'Que faire si ma porte est claquée ?',
+      answer: 'Évitez de forcer la porte ou la serrure',
+    },
+    {
+      question: 'Ma porte est verrouillée, que faire ?',
+      answer: 'Évitez de forcer la porte ou la serrure',
+    },
+    {
+      question: 'Combien coûte une intervention ?',
+      answer: 'Le site ne publie pas de tarif',
+    },
+    {
+      question: 'Vous êtes disponibles maintenant ?',
+      answer: 'Le service est annoncé 24h/24 et 7j/7',
+    },
+    {
+      question: 'Vous intervenez dans ma commune ?',
+      answer: 'Le site cite Lyon, Meyzieu, Genas',
+    },
+    {
+      question: 'Vous venez à Villeurbanne ?',
+      answer: 'Cette liste ne garantit pas la prise en charge',
+    },
+    {
+      question: 'Vous faites les portes blindées et la vitrerie ?',
+      answer: 'Les prestations présentées sont le dépannage d’urgence',
+    },
+    {
+      question: 'Faites-vous les ouvertures de porte ?',
+      answer: 'Les prestations présentées sont le dépannage d’urgence',
+    },
+    {
+      question: 'Comment puis-je vous contacter ?',
+      answer: 'Vous pouvez appeler le serrurier ou lui écrire sur WhatsApp',
+    },
+    {
+      question: 'Pouvez-vous garantir une ouverture sans dégât et un délai de 10 minutes ?',
+      answer: 'Je n’ai pas trouvé de réponse fiable',
+    },
+    {
+      question: '<img src=x onerror=alert(1)>',
+      answer: 'Je n’ai pas trouvé de réponse fiable',
+    },
+  ];
+
+  for (const { question, answer } of cases) {
+    await input.fill(question);
+    await input.press('Enter');
+    await expect(page.locator('.faq-assistant-message--user').last()).toHaveText(question);
+    await expect(page.locator('.faq-assistant-message--bot').last()).toContainText(answer);
+  }
+
+  await expect(page.locator('#faq-assistant-messages img')).toHaveCount(0);
+  await expect(page.locator('.faq-assistant-message')).toHaveCount(1 + cases.length * 2);
+});
+
+test('FAQ assistant suggestions, close button, and mobile positioning work', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  await page.addInitScript(() => localStorage.removeItem('analytics-consent'));
+  await page.goto('/');
+  await expect(page.locator('#analytics-consent')).toBeVisible();
+  await page.getByRole('button', { name: 'Continuer sans accepter' }).click();
+
+  const toggle = page.getByRole('button', { name: 'Poser une question à l’assistant serrurerie' });
+  const panel = page.getByRole('dialog', { name: 'Assistant serrurerie' });
+  await toggle.click();
+
+  for (const [label, answer] of [
+    ['Porte claquée', 'Évitez de forcer la porte ou la serrure'],
+    ['Ma commune', 'Le site cite Lyon, Meyzieu, Genas'],
+    ['Disponibilité', 'Le service est annoncé 24h/24 et 7j/7'],
+    ['Vos services', 'Les prestations présentées sont le dépannage d’urgence'],
+  ]) {
+    await page.getByRole('button', { name: label }).click();
+    await expect(page.locator('.faq-assistant-message--bot').last()).toContainText(answer);
+  }
+
+  await expect(panel).toBeInViewport();
+  await expect(toggle).toBeInViewport();
+  await page.getByRole('button', { name: 'Fermer l’assistant' }).click();
+  await expect(panel).toBeHidden();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+});

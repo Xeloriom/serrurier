@@ -11,6 +11,7 @@ from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parent.parent
+DIST = ROOT / "dist"
 EXPECTED_CANONICAL = "https://xn--serrurierdpannagerapide-kcc.fr/"
 SITEMAP_NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 DEMO_PATHS = (
@@ -95,7 +96,7 @@ def fetch(url):
 
 
 def route_for_page(path):
-    relative = path.parent.relative_to(ROOT)
+    relative = path.parent.relative_to(DIST)
     if str(relative) == ".":
         return EXPECTED_CANONICAL
     return urljoin(EXPECTED_CANONICAL, relative.as_posix() + "/")
@@ -117,8 +118,8 @@ def local_pages():
         "vendor",
     }
     return sorted(
-        path for path in ROOT.rglob("index.html")
-        if not excluded_directories.intersection(path.relative_to(ROOT).parts[:-1])
+        path for path in DIST.rglob("index.html")
+        if not excluded_directories.intersection(path.relative_to(DIST).parts[:-1])
     )
 
 
@@ -152,13 +153,13 @@ def check_page(html, source, expected_canonical, is_homepage=False, live=False):
         image_src = image.get("src", "")
         if image_src and not image_src.startswith(("http://", "https://", "data:")) and not live:
             image_url = urljoin(expected_canonical, image_src)
-            image_path = ROOT / unquote(urlsplit(image_url).path.lstrip("/"))
+            image_path = DIST / unquote(urlsplit(image_url).path.lstrip("/"))
             if not image_path.is_file():
                 ok &= fail(f"{source}: image locale introuvable: {image_src}.")
 
     social_image = page.meta.get("og:image", "")
     if social_image and not live:
-        social_path = ROOT / unquote(urlsplit(social_image).path.lstrip("/"))
+        social_path = DIST / unquote(urlsplit(social_image).path.lstrip("/"))
         if not social_path.is_file():
             ok &= fail(f"{source}: image Open Graph introuvable: {social_image}.")
 
@@ -220,9 +221,9 @@ def check_local():
         sitemap_urls.append(canonical)
         ok &= check_page(
             path.read_text(encoding="utf-8"),
-            path.relative_to(ROOT).as_posix(),
+            path.relative_to(DIST).as_posix(),
             canonical,
-            is_homepage=path.parent == ROOT,
+            is_homepage=path.parent == DIST,
         )
         title = page.title.strip()
         if title in titles:
@@ -234,7 +235,7 @@ def check_local():
             target = urlsplit(urljoin(canonical, href))
             if target.scheme or target.netloc or not target.path:
                 continue
-            target_path = ROOT / unquote(target.path.lstrip("/"))
+            target_path = DIST / unquote(target.path.lstrip("/"))
             if target.path.endswith("/"):
                 target_path /= "index.html"
             if target_path.is_dir():
@@ -246,13 +247,13 @@ def check_local():
             elif target.fragment and target.fragment not in target_page.ids:
                 ok &= fail(f"{canonical}: fragment inexistant pour {href}.")
 
-    robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+    robots = (DIST / "robots.txt").read_text(encoding="utf-8")
     sitemap_url = EXPECTED_CANONICAL + "sitemap.xml"
     if f"Sitemap: {sitemap_url}" not in robots:
         ok &= fail("robots.txt ne référence pas le sitemap canonique.")
 
     try:
-        root = ElementTree.parse(ROOT / "sitemap.xml").getroot()
+        root = ElementTree.parse(DIST / "sitemap.xml").getroot()
         urls = sorted(node.text for node in root.findall(".//s:loc", SITEMAP_NS))
         if urls != sorted(sitemap_urls):
             ok &= fail(
@@ -262,7 +263,7 @@ def check_local():
     except (ElementTree.ParseError, OSError) as error:
         ok &= fail(f"sitemap.xml illisible: {error}.")
 
-    llms = ROOT / "llms.txt"
+    llms = DIST / "llms.txt"
     if not llms.is_file():
         ok &= fail("llms.txt absent.")
     else:

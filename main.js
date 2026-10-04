@@ -474,16 +474,16 @@ function setupFaqAssistant() {
     if (/prix|tarif|combien|cout|devis/.test(normalized)) {
       return 'Le site ne publie pas de tarif : le prix dépend de la situation. Appelez pour expliquer le problème et demander les modalités d’un devis avant toute intervention.';
     }
-    if (/claqu|bloqu|porte fermee|enferme|cle perdue|cle cassee|cle oubliee|ne s ouvre plus/.test(normalized)) {
+    if (/claqu|bloqu|verrouill|porte fermee|enferme|serrure (?:coincee|ne tourne plus)|cle[s]? (?:perdue|perdues|cassee|cassees|oubliee|oubliees)|(?:perdu|perdue|perdus|perdues|casse|cassee|casses|cassees) .*cle|ne s ouvre plus/.test(normalized)) {
       return 'Évitez de forcer la porte ou la serrure, cela pourrait aggraver les dégâts. Décrivez si la porte est claquée ou verrouillée et précisez votre commune au serrurier.';
     }
-    if (/disponib|maintenant|ouvert|nuit|week.?end|urgence|24.?h/.test(normalized)) {
+    if (/disponib|maintenant|horaires?|nuit|week.?end|urgence|24.?h|ouvert(?:e|s)? (?:maintenant|aujourd|ce soir)/.test(normalized)) {
       return 'Le service est annoncé 24h/24 et 7j/7. La disponibilité et le délai dépendent de votre localisation et du dépannage : appelez directement pour les confirmer.';
     }
-    if (/commune|ville|zone|interven|adresse|secteur|deplac/.test(normalized)) {
+    if (/commune|ville|zone|interven|adresse|secteur|deplac|venez|desserv|autour de|villeurbanne|vaulx|venissieux|caluire|bron|decines/.test(normalized)) {
       return 'Le site cite Lyon, Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Cette liste ne garantit pas la prise en charge : appelez pour confirmer votre adresse.';
     }
-    if (/service|prestation|serrur|volet|vitr|blind|installation|repar/.test(normalized)) {
+    if (/service|prestation|serrur|volet|vitr|blind|installation|repar|ouvertures? de porte|ouvrir (?:une|ma) porte/.test(normalized)) {
       return 'Les prestations présentées sont le dépannage d’urgence, l’ouverture et la réparation de serrure, les portes blindées, les volets roulants et la vitrerie.';
     }
     if (/contact|appeler|telephone|whatsapp|parler/.test(normalized)) {

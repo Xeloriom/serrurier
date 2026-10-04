@@ -1,3 +1,5 @@
+---
+---
 <!doctype html>
 <html lang="fr">
 <head>
@@ -69,8 +71,8 @@
   <link rel="stylesheet" href="vendor/lenis.css" />
   <link rel="stylesheet" href="style.css" />
 
-  <script src="vendor/tailwind-browser.js"></script>
-  <style type="text/tailwindcss">
+  <script is:inline src="vendor/tailwind-browser.js"></script>
+  <style is:inline type="text/tailwindcss">
     @theme {
       --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
       --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -84,9 +86,9 @@
     }
   </style>
 
-  <script src="vendor/lenis.min.js"></script>
-  <script defer src="main.js"></script>
-  <script defer src="vendor/alpine.min.js"></script>
+  <script is:inline src="vendor/lenis.min.js"></script>
+  <script is:inline defer src="main.js"></script>
+  <script is:inline defer src="vendor/alpine.min.js"></script>
 </head>
 
 <body class="font-sans bg-[#fcfcfc] text-[#111] overflow-x-hidden selection:bg-black selection:text-white">
