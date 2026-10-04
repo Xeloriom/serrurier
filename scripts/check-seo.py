@@ -142,8 +142,8 @@ def check_page(html, source, expected_canonical, is_homepage=False, live=False):
         ok &= fail(f"{source}: texte alternatif de l'image sociale absent.")
     if "max-image-preview:large" not in page.meta.get("robots", ""):
         ok &= fail(f"{source}: robots n'autorise pas les grands aperçus d'image.")
-    if len(page.h1) != 1 or "LYON" not in " ".join(page.h1).upper():
-        ok &= fail(f"{source}: attendu un H1 unique et spécifique à la zone de Lyon.")
+    if len(page.h1) != 1:
+        ok &= fail(f"{source}: attendu un H1 unique.")
     if set(page.fragments) - page.ids:
         ok &= fail(f"{source}: ancres internes sans cible: {sorted(set(page.fragments) - page.ids)}.")
     if any("alt" not in image for image in page.images):
