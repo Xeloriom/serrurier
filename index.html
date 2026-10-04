@@ -8,7 +8,7 @@
           name="description"
           content="Serrurier à Lyon et alentours, 24h/24 et 7j/7. Ouverture de porte, dépannage, serrures, volets roulants et vitrerie. Appelez le 07 78 95 24 40."
   />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#fcfcfc" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
@@ -16,21 +16,22 @@
   <meta property="og:description" content="Ouverture de porte, dépannage et pose de serrure, volets roulants et vitrerie à Lyon et alentours. Disponible 24h/24 et 7j/7." />
   <meta property="og:site_name" content="Serrurier Dépannage Rapide" />
   <meta property="og:url" content="https://xn--serrurierdpannagerapide-kcc.fr/" />
-  <meta property="og:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg" />
+  <meta property="og:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.webp" />
   <meta property="og:image:alt" content="Serrurier intervenant sur une porte" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Serrurier à Lyon et alentours | Urgence 24h/24, 7j/7" />
   <meta name="twitter:description" content="Ouverture de porte, dépannage et pose de serrure à Lyon et alentours. Disponible 24h/24 et 7j/7." />
-  <meta name="twitter:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg" />
+  <meta name="twitter:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.webp" />
   <meta name="twitter:image:alt" content="Serrurier intervenant sur une porte" />
   <link rel="canonical" href="https://xn--serrurierdpannagerapide-kcc.fr/" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Locksmith",
+      "@id": "https://xn--serrurierdpannagerapide-kcc.fr/#business",
       "name": "Serrurier Dépannage Rapide",
       "url": "https://xn--serrurierdpannagerapide-kcc.fr/",
-      "image": "https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg",
+      "image": "https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.webp",
       "description": "Serrurier à Lyon et alentours, disponible 24h/24 et 7j/7 pour l'ouverture de porte, le dépannage et la pose de serrures, les volets roulants et la vitrerie.",
       "telephone": "+33778952440",
       "areaServed": [
@@ -44,6 +45,19 @@
       "knowsLanguage": "French"
     }
   </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://xn--serrurierdpannagerapide-kcc.fr/#website",
+      "url": "https://xn--serrurierdpannagerapide-kcc.fr/",
+      "name": "Serrurier Dépannage Rapide",
+      "inLanguage": "fr-FR",
+      "publisher": {
+        "@id": "https://xn--serrurierdpannagerapide-kcc.fr/#business"
+      }
+    }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,12 +67,6 @@
   />
 
   <link rel="stylesheet" href="vendor/lenis.css" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
   <link rel="stylesheet" href="style.css" />
 
   <script src="vendor/tailwind-browser.js"></script>
@@ -77,18 +85,12 @@
   </style>
 
   <script src="vendor/lenis.min.js"></script>
-  <script
-    defer
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/zod@3.22.4/lib/index.umd.js"></script>
   <script defer src="main.js"></script>
   <script defer src="vendor/alpine.min.js"></script>
 </head>
 
 <body class="font-sans bg-[#fcfcfc] text-[#111] overflow-x-hidden selection:bg-black selection:text-white">
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
 <!-- Sprite d'icônes (style Lucide) -->
 <svg width="0" height="0" style="position: absolute" aria-hidden="true">
   <defs>
@@ -112,10 +114,6 @@
     <symbol id="i-phone" viewBox="0 0 24 24">
       <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
     </symbol>
-    <filter id="hero-liquid-filter" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.065" numOctaves="2" seed="8" result="liquid-noise" />
-      <feDisplacementMap id="hero-liquid-displacement" in="SourceGraphic" in2="liquid-noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
   </defs>
 </svg>
 
@@ -158,14 +156,9 @@
       </div>
 
       <div data-st class="fade-up flex justify-between items-center mt-5 md:mt-3 text-[10px] md:text-[11px] font-mono tracking-[0.12em] uppercase">
-        <div class="md:hidden pr-4 leading-relaxed text-gray-800">
-          <div>Serrurier</div>
-          <div>Dépannage</div>
-          <div>Rapide</div>
-        </div>
-
         <p class="flex-1 px-2 leading-relaxed text-gray-800 font-mono md:hidden">
-          Dépannage, serrures, portes blindées, volets roulants et vitrerie. Disponible 24h/24 et 7j/7.
+          <span class="block font-semibold">Lyon &amp; alentours · Urgence 24h/24</span>
+          <span class="mt-1 block text-gray-500">Serrurerie · Portes · Volets</span>
         </p>
 
         <nav class="hidden md:block md:flex-1" aria-label="Navigation principale">
@@ -185,6 +178,7 @@
                 :aria-label="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
                 :aria-expanded="menuOpen"
                 aria-controls="mobile-navigation"
+                @keydown.escape.window="menuOpen = false"
                 @click="menuOpen = !menuOpen"
         >
           <span class="block h-[1.5px] bg-black transition-all duration-300" :class="menuOpen ? 'w-8 rotate-45 translate-y-[3.75px]' : 'w-8 group-hover:w-6'"></span>
@@ -222,7 +216,7 @@
       <div class="hero-main">
         <article id="hero-step-1" class="hero-copy hero-step reveal" data-hero-image="0">
           <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>01</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
-          <h1 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">SERRURIER À LYON<br />EN URGENCE ?</h1>
+          <h1 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">SERRURIER À LYON <br />EN URGENCE ?</h1>
           <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
             Besoin d'un serrurier à Lyon ou en périphérie ? Dépannage, ouverture de porte et réparation de serrure, de jour comme de nuit.
           </p>
@@ -268,10 +262,11 @@
       <div class="hero-visual reveal">
         <img
           class="hero-photo is-active"
-          src="assets/locksmith-work.jpg"
+          src="assets/locksmith-work.webp"
           alt="Serrurier en intervention sur une serrure de porte"
           data-chapter="0"
           fetchpriority="high"
+          decoding="async"
           width="1280"
           height="961"
         />
@@ -305,22 +300,22 @@
 
     <nav aria-label="Accès rapide à nos services" class="service-shortcuts" data-reveal-stagger data-delay="0.12" data-step="0.06">
       <div class="reveal">
-        <a href="#prestations" @click.prevent="selectChapter(0); go('#prestations')" class="service-shortcut">
+        <a href="ouverture-porte-lyon/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-door-open" /></svg></span><span>Ouverture de porte</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
-        <a href="#prestations" @click.prevent="selectChapter(2); go('#prestations')" class="service-shortcut">
+        <a href="serrure-porte-blindee-lyon/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-key" /></svg></span><span>Serrures</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
-        <a href="#prestations" @click.prevent="selectChapter(1); go('#prestations')" class="service-shortcut">
+        <a href="serrure-porte-blindee-lyon/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield" /></svg></span><span>Porte blindée</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
-        <a href="#prestations" @click.prevent="selectChapter(3); go('#prestations')" class="service-shortcut">
+        <a href="volet-roulant-lyon/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-wrench" /></svg></span><span>Volets roulants</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
@@ -430,33 +425,33 @@
 
       <div class="grid md:grid-cols-2 xl:grid-cols-3 border-t border-gray-200" data-reveal-stagger data-delay="0.04" data-step="0.08">
         <article class="reveal service-card border-b md:border-r border-gray-200 p-7 md:p-9">
-          <img class="service-illustration" src="assets/locksmith-work.jpg" alt="Serrurier intervenant sur une porte" loading="lazy" width="1280" height="961" />
+          <img class="service-illustration" src="assets/locksmith-work.webp" alt="Serrurier intervenant sur une porte" loading="lazy" decoding="async" width="1280" height="961" />
           <span class="font-mono text-xs text-gray-400">01 / ACCÈS</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium">Ouverture de porte</h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="ouverture-porte-lyon/" class="underline underline-offset-4">Ouverture de porte</a></h3>
           <p class="leading-relaxed text-gray-600">Porte claquée, clé perdue ou serrure bloquée ? Décrivez les symptômes pour identifier la solution adaptée à votre porte et à votre situation.</p>
         </article>
         <article class="reveal service-card border-b xl:border-r border-gray-200 p-7 md:p-9">
-          <img class="service-illustration" src="assets/security-door.webp" alt="Serrure multipoints sur une porte sécurisée" loading="lazy" width="1800" height="1296" />
+          <img class="service-illustration" src="assets/security-door.webp" alt="Serrure multipoints sur une porte sécurisée" loading="lazy" decoding="async" width="1800" height="1296" />
           <span class="font-mono text-xs text-gray-400">02 / SÉCURITÉ</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium">Dépannage et pose de serrure</h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee-lyon/" class="underline underline-offset-4">Dépannage et pose de serrure</a></h3>
           <p class="leading-relaxed text-gray-600">Remplacement d'un cylindre ou d'une serrure, installation et conseils pour sécuriser une porte après une perte de clés ou une effraction.</p>
         </article>
         <article class="reveal service-card border-b md:border-r xl:border-r-0 border-gray-200 p-7 md:p-9">
-          <img class="service-illustration" src="assets/door-installation.jpg" alt="Artisan réparant une porte et sa serrure" loading="lazy" width="1600" height="1201" />
+          <img class="service-illustration" src="assets/door-installation.webp" alt="Artisan réparant une porte et sa serrure" loading="lazy" decoding="async" width="1600" height="1201" />
           <span class="font-mono text-xs text-gray-400">03 / RÉPARATION</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium">Réparation et remplacement de serrure</h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee-lyon/" class="underline underline-offset-4">Réparation et remplacement de serrure</a></h3>
           <p class="leading-relaxed text-gray-600">Serrure usée, endommagée ou bloquée : faites vérifier le mécanisme et les options de réparation ou de remplacement.</p>
         </article>
         <article class="reveal service-card border-b md:border-r xl:border-b-0 border-gray-200 p-7 md:p-9">
-          <img class="service-illustration" src="assets/rolling-shutter.webp" alt="Volets roulants installés sur une maison" loading="lazy" width="1024" height="778" />
+          <img class="service-illustration" src="assets/rolling-shutter.webp" alt="Volets roulants installés sur une maison" loading="lazy" decoding="async" width="1024" height="778" />
           <span class="font-mono text-xs text-gray-400">04 / VOLETS</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium">Réparation de volets roulants</h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="volet-roulant-lyon/" class="underline underline-offset-4">Réparation de volets roulants</a></h3>
           <p class="leading-relaxed text-gray-600">Un volet roulant bloqué ou endommagé ? Demandez un dépannage pour retrouver un fonctionnement normal et sécuriser vos ouvertures.</p>
         </article>
         <article class="reveal service-card border-b md:border-b-0 md:border-r border-gray-200 p-7 md:p-9">
-          <img class="service-illustration" src="assets/glazing.webp" alt="Vitrier ajustant un vitrage dans une fenêtre" loading="lazy" width="1200" height="800" />
+          <img class="service-illustration" src="assets/glazing.webp" alt="Vitrier ajustant un vitrage dans une fenêtre" loading="lazy" decoding="async" width="1200" height="800" />
           <span class="font-mono text-xs text-gray-400">05 / VITRERIE</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium">Vitrerie</h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="vitrerie-lyon/" class="underline underline-offset-4">Vitrerie</a></h3>
           <p class="leading-relaxed text-gray-600">Vitrage cassé ou endommagé : contactez le serrurier-vitrier pour faire sécuriser et remplacer le vitrage selon votre situation.</p>
         </article>
         <article class="reveal bg-[#f4f3ef] p-7 md:p-9 flex flex-col justify-between min-h-64">
@@ -506,12 +501,17 @@
           style="--d: 0.16s"
           role="region"
           aria-label="Carte indicative des communes desservies autour de Lyon"
-        ></div>
+        >
+          <a class="map-fallback" href="https://www.openstreetmap.org/#map=9/45.75/5.00" target="_blank" rel="noopener noreferrer">
+            Voir les communes desservies autour de Lyon
+          </a>
+        </div>
         <p class="mt-3 text-xs leading-relaxed text-gray-500">Repères indicatifs des communes citées, sans délimiter un rayon garanti. Appelez pour confirmer la prise en charge de votre adresse.</p>
       </div>
       <div class="text-gray-600 leading-relaxed space-y-5">
         <p class="reveal">Les déplacements couvrent Lyon et sa périphérie, l'Est lyonnais, le Nord-Isère ainsi que la Plaine de l'Ain et le Bugey. Le serrurier intervient auprès des particuliers et des professionnels.</p>
         <p class="reveal" style="--d: 0.08s">Parmi les communes desservies : Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Appelez pour confirmer la prise en charge de votre adresse et le délai disponible.</p>
+        <p class="reveal"><a href="zone-intervention-serrurier-lyon/" class="font-medium underline underline-offset-4">Voir les communes et vérifier ma zone d'intervention ↗</a></p>
         <a href="tel:+33778952440" data-phone class="reveal inline-flex items-center gap-3 text-[#111] font-medium underline underline-offset-4" style="--d: 0.16s">Vérifier ma commune · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span></a>
         <p class="reveal">
           <a
@@ -606,11 +606,61 @@
     <span data-phone-action data-phone-fallback="Demander un devis">Appeler le serrurier</span>
     <span aria-hidden="true">↗</span>
   </a>
+  <div class="faq-assistant">
+    <section id="faq-assistant-panel" class="faq-assistant-panel" role="dialog" aria-labelledby="faq-assistant-title" aria-modal="false" hidden>
+      <header class="faq-assistant-header">
+        <div class="faq-assistant-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a8 8 0 0 0-8 8v2a3 3 0 0 0 3 3h1v-5H5" /><path d="M12 3a8 8 0 0 1 8 8v2a3 3 0 0 1-3 3h-1v-5h3" /><path d="M9 19h6" /></svg>
+        </div>
+        <div>
+          <h2 id="faq-assistant-title">Assistant serrurerie</h2>
+          <p>Réponses rapides · sans IA</p>
+        </div>
+        <button class="faq-assistant-close" type="button" aria-label="Fermer l’assistant">×</button>
+      </header>
+      <div id="faq-assistant-messages" class="faq-assistant-messages" role="log" aria-live="polite" aria-relevant="additions text">
+        <p class="faq-assistant-message faq-assistant-message--bot">Bonjour ! Je peux répondre aux questions fréquentes. Pour une urgence, appelez directement le serrurier.</p>
+        <div class="faq-assistant-suggestions" aria-label="Questions fréquentes">
+          <button type="button" data-assistant-question="Que faire si ma porte est claquée ?">Porte claquée</button>
+          <button type="button" data-assistant-question="Intervenez-vous dans ma commune ?">Ma commune</button>
+          <button type="button" data-assistant-question="Êtes-vous disponible maintenant ?">Disponibilité</button>
+          <button type="button" data-assistant-question="Quels services proposez-vous ?">Vos services</button>
+        </div>
+      </div>
+      <form id="faq-assistant-form" class="faq-assistant-form">
+        <label class="sr-only" for="faq-assistant-input">Votre question</label>
+        <input id="faq-assistant-input" name="question" type="text" maxlength="240" placeholder="Écrivez votre question…" autocomplete="off" required />
+        <button type="submit" aria-label="Envoyer la question">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+        </button>
+      </form>
+      <div class="faq-assistant-actions">
+        <a href="tel:+33778952440" data-phone data-analytics-event="Assistant Phone Call">Appeler</a>
+        <a href="https://wa.me/33778952440?text=Bonjour%2C%20j%E2%80%99ai%20une%20question%20pour%20le%20serrurier." target="_blank" rel="noopener noreferrer" data-analytics-event="Assistant WhatsApp">Écrire sur WhatsApp</a>
+      </div>
+    </section>
+    <button class="faq-assistant-toggle" type="button" aria-label="Poser une question à l’assistant serrurerie" aria-expanded="false" aria-controls="faq-assistant-panel">
+      <svg class="faq-assistant-toggle-icon faq-assistant-toggle-icon--chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" /></svg>
+      <svg class="faq-assistant-toggle-icon faq-assistant-toggle-icon--close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12" /></svg>
+      <span>Une question ?</span>
+    </button>
+  </div>
   <aside id="analytics-consent" class="analytics-consent" aria-label="Choix de mesure d’audience">
-    <p>La mesure d’audience via Plausible est facultative. Autorisez-vous le suivi des visites et des actions sur ce site ? Vous pourrez modifier ce choix dans le pied de page.</p>
-    <div class="flex flex-wrap gap-2">
-      <button id="analytics-accept" type="button">Autoriser</button>
+    <div class="analytics-consent-heading">
+      <svg class="analytics-consent-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M39.7 25.2A16.1 16.1 0 0 1 22.8 42C13.5 42 6 34.5 6 25.2S13.5 8.4 22.8 8.4c1.1 0 2.2.1 3.2.3a7.7 7.7 0 0 0 10 10 16 16 0 0 1 3.7 6.5Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M18 22.5h.1M26 30h.1M15.5 31.5h.1M29 23h.1" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+        <circle cx="34.5" cy="8.5" r="1.4" fill="currentColor" />
+        <circle cx="41" cy="15" r="1" fill="currentColor" />
+      </svg>
+      <div>
+        <h2 class="analytics-consent-title">Un peu de mesure, en toute transparence</h2>
+        <p class="analytics-consent-copy">Les statistiques de fréquentation nous aident à améliorer le site. Vous pouvez les autoriser ou continuer sans suivi.</p>
+      </div>
+    </div>
+    <div class="analytics-consent-actions">
       <button id="analytics-decline" type="button">Continuer sans accepter</button>
+      <button id="analytics-accept" type="button">Autoriser les statistiques</button>
     </div>
   </aside>
   </main>

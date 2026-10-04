@@ -16,9 +16,9 @@ function trackAnalytics(eventName) {
 }
 
 const CHAPTERS = [
-  { name: "Dépannage d'urgence", image: 'assets/locksmith-work.jpg' },
+  { name: "Dépannage d'urgence", image: 'assets/locksmith-work.webp' },
   { name: 'Serrures & portes blindées', image: 'assets/security-door.webp' },
-  { name: 'Réparation de serrure', image: 'assets/door-installation.jpg' },
+  { name: 'Réparation de serrure', image: 'assets/door-installation.webp' },
   { name: 'Volets roulants', image: 'assets/rolling-shutter.webp' },
   { name: 'Vitrerie', image: 'assets/glazing.webp' },
 ];
@@ -30,9 +30,10 @@ const pad = (n) => String(n).padStart(2, '0');
 /* -------------------------------------------------------------------- */
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersNativeScroll = window.matchMedia('(pointer: coarse), (max-width: 767px)').matches;
 let lenis = null;
 
-if (window.Lenis && !prefersReducedMotion) {
+if (window.Lenis && !prefersReducedMotion && !prefersNativeScroll) {
   lenis = new Lenis({ lerp: 0.08, smoothWheel: true, wheelMultiplier: 0.68 });
   const raf = (time) => {
     lenis.raf(time);
@@ -190,8 +191,8 @@ document.addEventListener('alpine:init', () => {
 
       // Verrouille le scroll quand le menu mobile est ouvert
       this.$watch('menuOpen', (open) => {
-        if (!lenis) return;
-        open ? lenis.stop() : lenis.start();
+        document.body.classList.toggle('mobile-menu-open', open);
+        if (lenis) open ? lenis.stop() : lenis.start();
       });
     },
 
@@ -201,6 +202,7 @@ document.addEventListener('alpine:init', () => {
 
     go(selector) {
       this.menuOpen = false;
+      document.body.classList.remove('mobile-menu-open');
       this.$nextTick(() => {
         if (lenis) lenis.start();
         scrollToTarget(selector);
@@ -252,39 +254,87 @@ function setupMobileContactCta() {
 function setupInterventionMap() {
   const container = document.getElementById('intervention-map');
   if (!container) return;
-  if (!window.L) {
-    console.error('Leaflet n’a pas pu être chargé : la carte de la zone d’intervention est indisponible.');
-    const fallback = document.createElement('a');
-    fallback.href = 'https://www.openstreetmap.org/#map=9/45.75/5.00';
-    fallback.textContent = 'Consulter la zone autour de Lyon sur OpenStreetMap';
-    fallback.className = 'text-sm underline underline-offset-4';
-    container.replaceChildren(fallback);
+
+  const initializeMap = () => {
+    if (!window.L) throw new Error('Leaflet est chargé, mais son API est indisponible.');
+    container.replaceChildren();
+
+    const locations = [
+      { name: 'Lyon', coordinates: [45.764, 4.8357] },
+      { name: 'Meyzieu', coordinates: [45.7667, 5.0] },
+      { name: 'Genas', coordinates: [45.7314, 5.0] },
+      { name: 'Jonage', coordinates: [45.7986, 5.045] },
+      { name: 'Crémieu', coordinates: [45.7253, 5.2494] },
+      { name: 'Bourgoin-Jallieu', coordinates: [45.586, 5.273] },
+      { name: 'Tignieu-Jameyzieu', coordinates: [45.735, 5.185] },
+      { name: 'Pont-de-Chéruy', coordinates: [45.749, 5.17] },
+    ];
+    const map = window.L.map(container, { scrollWheelZoom: false }).fitBounds(
+      locations.map(({ coordinates }) => coordinates),
+      { padding: [24, 24] },
+    );
+
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(map);
+
+    locations.forEach(({ name, coordinates }) => {
+      window.L.marker(coordinates).addTo(map).bindPopup(name);
+    });
+  };
+
+  const loadLeaflet = () => {
+    if (window.L) return Promise.resolve();
+    if (window.leafletLoading) return window.leafletLoading;
+
+    const loadStylesheet = new Promise((resolve, reject) => {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      stylesheet.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+      stylesheet.crossOrigin = 'anonymous';
+      stylesheet.onload = resolve;
+      stylesheet.onerror = () => reject(new Error('Impossible de charger les styles de la carte.'));
+      document.head.append(stylesheet);
+    });
+
+    const loadScript = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+      script.crossOrigin = 'anonymous';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Impossible de charger Leaflet.'));
+      document.head.append(script);
+    });
+    window.leafletLoading = Promise.all([loadStylesheet, loadScript]).then(() => {
+      if (!window.L) throw new Error('Leaflet n’a pas exposé son API.');
+    });
+    return window.leafletLoading;
+  };
+
+  const startMap = () => {
+    loadLeaflet().then(initializeMap).catch((error) => {
+      console.error('La carte de la zone d’intervention est indisponible.', error);
+      container.classList.add('map-unavailable');
+    });
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    startMap();
     return;
   }
 
-  const locations = [
-    { name: 'Lyon', coordinates: [45.764, 4.8357] },
-    { name: 'Meyzieu', coordinates: [45.7667, 5.0] },
-    { name: 'Genas', coordinates: [45.7314, 5.0] },
-    { name: 'Jonage', coordinates: [45.7986, 5.045] },
-    { name: 'Crémieu', coordinates: [45.7253, 5.2494] },
-    { name: 'Bourgoin-Jallieu', coordinates: [45.586, 5.273] },
-    { name: 'Tignieu-Jameyzieu', coordinates: [45.735, 5.185] },
-    { name: 'Pont-de-Chéruy', coordinates: [45.749, 5.17] },
-  ];
-  const map = window.L.map(container, { scrollWheelZoom: false }).fitBounds(
-    locations.map(({ coordinates }) => coordinates),
-    { padding: [24, 24] },
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      startMap();
+    },
+    { rootMargin: '240px' },
   );
-
-  window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18,
-  }).addTo(map);
-
-  locations.forEach(({ name, coordinates }) => {
-    window.L.marker(coordinates).addTo(map).bindPopup(name);
-  });
+  observer.observe(container);
 }
 
 function setupQuoteForm() {
@@ -294,30 +344,32 @@ function setupQuoteForm() {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (!window.Zod) {
-      console.error('Zod n’a pas pu être chargé : la validation du formulaire est indisponible.');
-      status.textContent = 'Le formulaire est momentanément indisponible. Vous pouvez nous appeler directement.';
+    const values = new FormData(form);
+    const name = String(values.get('name') || '').trim();
+    const city = String(values.get('city') || '').trim();
+    const message = String(values.get('message') || '').trim();
+
+    if (name.length < 2 || name.length > 80) {
+      status.textContent = 'Indiquez votre nom (2 à 80 caractères).';
+      form.elements.namedItem('name')?.focus();
       return;
     }
-
-    const schema = window.Zod.z.object({
-      name: window.Zod.z.string().trim().min(2, 'Indiquez votre nom (au moins 2 caractères).').max(80, 'Le nom ne peut pas dépasser 80 caractères.'),
-      city: window.Zod.z.string().trim().min(2, 'Indiquez votre commune.').max(100, 'La commune ne peut pas dépasser 100 caractères.'),
-      message: window.Zod.z.string().trim().min(10, 'Décrivez le problème en 10 caractères minimum.').max(1000, 'Le message ne peut pas dépasser 1 000 caractères.'),
-    });
-    const values = Object.fromEntries(new FormData(form).entries());
-    const result = schema.safeParse(values);
-
-    if (!result.success) {
-      status.textContent = result.error.issues[0].message;
+    if (city.length < 2 || city.length > 100) {
+      status.textContent = 'Indiquez votre commune (2 à 100 caractères).';
+      form.elements.namedItem('city')?.focus();
+      return;
+    }
+    if (message.length < 10 || message.length > 1000) {
+      status.textContent = 'Décrivez le problème (10 à 1 000 caractères).';
+      form.elements.namedItem('message')?.focus();
       return;
     }
 
     const text = [
       'Bonjour, je souhaite un renseignement ou un devis.',
-      `Nom : ${result.data.name}`,
-      `Commune : ${result.data.city}`,
-      `Besoin : ${result.data.message}`,
+      `Nom : ${name}`,
+      `Commune : ${city}`,
+      `Besoin : ${message}`,
     ].join('\n');
     trackAnalytics('WhatsApp Quote Request');
     window.location.assign(`https://wa.me/${SITE.phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`);
@@ -383,6 +435,89 @@ function setupAnalyticsConsent() {
   });
 }
 
+function setupFaqAssistant() {
+  const widget = document.querySelector('.faq-assistant');
+  const panel = document.getElementById('faq-assistant-panel');
+  const toggle = widget?.querySelector('.faq-assistant-toggle');
+  const closeButton = widget?.querySelector('.faq-assistant-close');
+  const form = document.getElementById('faq-assistant-form');
+  const input = document.getElementById('faq-assistant-input');
+  const messages = document.getElementById('faq-assistant-messages');
+  if (
+    !widget
+    || !(panel instanceof HTMLElement)
+    || !(toggle instanceof HTMLButtonElement)
+    || !(closeButton instanceof HTMLButtonElement)
+    || !(form instanceof HTMLFormElement)
+    || !(input instanceof HTMLInputElement)
+    || !(messages instanceof HTMLElement)
+  ) return;
+
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) input.focus();
+    else toggle.focus();
+  };
+
+  const addMessage = (text, sender) => {
+    const message = document.createElement('p');
+    message.className = `faq-assistant-message faq-assistant-message--${sender}`;
+    message.textContent = text;
+    messages.append(message);
+    messages.scrollTop = messages.scrollHeight;
+  };
+
+  const getAnswer = (question) => {
+    const normalized = question.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    if (/prix|tarif|combien|cout|devis/.test(normalized)) {
+      return 'Le site ne publie pas de tarif : le prix dépend de la situation. Appelez pour expliquer le problème et demander les modalités d’un devis avant toute intervention.';
+    }
+    if (/claqu|bloqu|porte fermee|enferme|cle perdue|cle cassee|cle oubliee|ne s ouvre plus/.test(normalized)) {
+      return 'Évitez de forcer la porte ou la serrure, cela pourrait aggraver les dégâts. Décrivez si la porte est claquée ou verrouillée et précisez votre commune au serrurier.';
+    }
+    if (/disponib|maintenant|ouvert|nuit|week.?end|urgence|24.?h/.test(normalized)) {
+      return 'Le service est annoncé 24h/24 et 7j/7. La disponibilité et le délai dépendent de votre localisation et du dépannage : appelez directement pour les confirmer.';
+    }
+    if (/commune|ville|zone|interven|adresse|secteur|deplac/.test(normalized)) {
+      return 'Le site cite Lyon, Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Cette liste ne garantit pas la prise en charge : appelez pour confirmer votre adresse.';
+    }
+    if (/service|prestation|serrur|volet|vitr|blind|installation|repar/.test(normalized)) {
+      return 'Les prestations présentées sont le dépannage d’urgence, l’ouverture et la réparation de serrure, les portes blindées, les volets roulants et la vitrerie.';
+    }
+    if (/contact|appeler|telephone|whatsapp|parler/.test(normalized)) {
+      return 'Vous pouvez appeler le serrurier ou lui écrire sur WhatsApp avec les boutons ci-dessous. Pour une urgence, l’appel est le moyen le plus direct.';
+    }
+    return 'Je n’ai pas trouvé de réponse fiable dans les informations du site. Pour éviter de vous induire en erreur, appelez le serrurier ou écrivez-lui sur WhatsApp.';
+  };
+
+  const submitQuestion = (question) => {
+    const trimmed = question.trim();
+    if (!trimmed) return;
+    addMessage(trimmed, 'user');
+    addMessage(getAnswer(trimmed), 'bot');
+    trackAnalytics('FAQ Assistant Question');
+    input.value = '';
+    input.focus();
+  };
+
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  closeButton.addEventListener('click', () => setOpen(false));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    submitQuestion(input.value);
+  });
+  messages.querySelectorAll('[data-assistant-question]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button instanceof HTMLButtonElement) submitQuestion(button.dataset.assistantQuestion || '');
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) setOpen(false);
+  });
+}
+
 function setupHeroStoryImages() {
   const visual = document.querySelector('.hero-visual');
   const layers = visual ? Array.from(visual.querySelectorAll('.hero-photo')) : [];
@@ -393,50 +528,38 @@ function setupHeroStoryImages() {
   let activeChapter = 0;
   let requestedChapter = 0;
   let requestId = 0;
-  let liquidFrame = 0;
-  const displacement = document.getElementById('hero-liquid-displacement');
+  const chapterCache = new Map(
+    [[0, Promise.resolve(CHAPTERS[0].image)]],
+  );
 
-  const resetLiquidEffect = () => {
-    if (liquidFrame) cancelAnimationFrame(liquidFrame);
-    liquidFrame = 0;
-    layers.forEach((layer) => layer.classList.remove('is-liquid'));
-    displacement?.setAttribute('scale', '0');
+  const loadChapter = (index) => {
+    if (!chapterCache.has(index)) {
+      const chapter = CHAPTERS[index];
+      const preload = new Image();
+      preload.decoding = 'async';
+      preload.src = chapter.image;
+      chapterCache.set(index, preload.decode().then(() => chapter.image));
+    }
+    return chapterCache.get(index);
   };
 
-  const animateLiquidEffect = (image) => {
-    if (prefersReducedMotion || !displacement) return;
-    resetLiquidEffect();
-    const duration = 850;
-    const startedAt = performance.now();
-    displacement.setAttribute('scale', '54');
-    image.classList.add('is-liquid');
-
-    const animate = (now) => {
-      const progress = Math.min((now - startedAt) / duration, 1);
-      const ripple = Math.abs(Math.cos(progress * Math.PI * 3));
-      const scale = progress === 1 ? 0 : 54 * Math.exp(-4.2 * progress) * (0.68 + ripple * 0.32);
-      displacement.setAttribute('scale', scale.toFixed(1));
-      if (progress < 1) {
-        liquidFrame = requestAnimationFrame(animate);
-      } else {
-        image.classList.remove('is-liquid');
-        liquidFrame = 0;
-      }
-    };
-
-    liquidFrame = requestAnimationFrame(animate);
+  const warmNextChapter = (index) => {
+    const nextIndex = index + 1;
+    if (nextIndex >= CHAPTERS.length) return;
+    loadChapter(nextIndex).catch((error) => {
+      console.error(`Impossible de précharger l'image « ${CHAPTERS[nextIndex].name} ».`, error);
+    });
   };
 
-  const showChapter = (index) => {
+  const showChapter = async (index) => {
     if (index === requestedChapter || !CHAPTERS[index]) return;
     requestedChapter = index;
     const request = ++requestId;
     const nextLayer = 1 - activeLayer;
     const chapter = CHAPTERS[index];
-    const preload = new Image();
-    preload.src = chapter.image;
 
-    preload.decode().then(() => {
+    try {
+      await loadChapter(index);
       if (request !== requestId) return;
       const image = layers[nextLayer];
       image.src = chapter.image;
@@ -445,7 +568,8 @@ function setupHeroStoryImages() {
       layers[activeLayer].alt = '';
       layers[activeLayer].setAttribute('aria-hidden', 'true');
       image.dataset.chapter = String(index);
-      animateLiquidEffect(image);
+      await image.decode();
+      if (request !== requestId) return;
       requestAnimationFrame(() => {
         if (request !== requestId) return;
         image.classList.add('is-active');
@@ -454,12 +578,12 @@ function setupHeroStoryImages() {
         activeChapter = index;
         updateStatus(index);
       });
-    }).catch((error) => {
-      if (request === requestId) {
-        requestedChapter = activeChapter;
-        console.error(`Impossible de charger l'image « ${chapter.name} ».`, error);
-      }
-    });
+      warmNextChapter(index);
+    } catch (error) {
+      if (request !== requestId) return;
+      requestedChapter = activeChapter;
+      console.error(`Impossible de charger l'image « ${chapter.name} ».`, error);
+    }
   };
 
   const updateStatus = (index) => {
@@ -475,20 +599,18 @@ function setupHeroStoryImages() {
   updateStatus(0);
 
   const observer = new IntersectionObserver(
-    (entries) => {
-      const current = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => {
-          const center = window.innerHeight / 2;
-          return Math.abs(a.boundingClientRect.top + a.boundingClientRect.height / 2 - center)
-            - Math.abs(b.boundingClientRect.top + b.boundingClientRect.height / 2 - center);
-        })[0];
-      if (current) showChapter(Number(current.target.dataset.heroImage));
+    () => {
+      const currentStep = Array.from(steps).find((step) => {
+        const bounds = step.getBoundingClientRect();
+        return bounds.top <= window.innerHeight * 0.55 && bounds.bottom >= window.innerHeight * 0.45;
+      });
+      if (currentStep) showChapter(Number(currentStep.dataset.heroImage));
     },
-    { rootMargin: '-38% 0px -38% 0px', threshold: 0 },
+    { rootMargin: '-40% 0px -40% 0px', threshold: 0 },
   );
 
   steps.forEach((step) => observer.observe(step));
+  warmNextChapter(0);
 }
 
 function setupHeroParallax() {
@@ -497,11 +619,21 @@ function setupHeroParallax() {
   if (!visual || !img || prefersReducedMotion) return;
 
   let frame = 0;
+  let isVisible = false;
   const update = () => {
+    if (!isVisible) {
+      frame = 0;
+      return;
+    }
+    if (window.matchMedia('(max-width: 1099px)').matches) {
+      visual.style.setProperty('--hero-parallax-y', '0px');
+      frame = 0;
+      return;
+    }
     const bounds = visual.getBoundingClientRect();
     const progress = (bounds.top + bounds.height / 2 - window.innerHeight / 2)
       / (window.innerHeight / 2 + bounds.height / 2);
-    const offset = Math.max(-1, Math.min(1, progress)) * -38;
+    const offset = Math.max(-1, Math.min(1, progress)) * -18;
     visual.style.setProperty('--hero-parallax-y', `${offset.toFixed(1)}px`);
     frame = 0;
   };
@@ -510,9 +642,42 @@ function setupHeroParallax() {
     frame = requestAnimationFrame(update);
   };
 
+  if (!('IntersectionObserver' in window)) {
+    isVisible = true;
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+    scheduleUpdate();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) scheduleUpdate();
+    },
+    { rootMargin: '100px' },
+  );
+  observer.observe(visual);
   window.addEventListener('scroll', scheduleUpdate, { passive: true });
   window.addEventListener('resize', scheduleUpdate, { passive: true });
-  scheduleUpdate();
+}
+
+function setupScrollProgress() {
+  const progress = document.querySelector('.scroll-progress');
+  if (!progress) return;
+
+  let frame = 0;
+  const update = () => {
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const value = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+    progress.style.setProperty('--scroll-progress', String(Math.min(value, 1)));
+    frame = 0;
+  };
+  window.addEventListener('scroll', () => {
+    if (frame) return;
+    frame = requestAnimationFrame(update);
+  }, { passive: true });
+  update();
 }
 
 setupStagger();
@@ -523,6 +688,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupInterventionMap();
   setupQuoteForm();
   setupAnalyticsConsent();
+  setupFaqAssistant();
   setupHeroStoryImages();
   setupHeroParallax();
+  setupScrollProgress();
 });

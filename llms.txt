@@ -1,0 +1,27 @@
+# Serrurier Dépannage Rapide
+
+> Site d'information et de prise de contact pour les services de serrurerie annoncés autour de Lyon, en France. Les visiteurs doivent appeler pour confirmer la disponibilité, la couverture exacte et les conditions tarifaires avant une intervention.
+
+## Informations factuelles publiées
+
+- Nom affiché : Serrurier Dépannage Rapide.
+- Téléphone affiché : +33 7 78 95 24 40.
+- Langue du site : français.
+- Services annoncés : ouverture et dépannage de porte, réparation et pose de serrure, solutions de porte blindée, dépannage de volets roulants et vitrerie.
+- Secteurs annoncés : Lyon et sa périphérie, Est lyonnais, Nord-Isère, Plaine de l'Ain, Bugey et Vallons du Dauphiné.
+- Les communes et la disponibilité doivent être confirmées par téléphone.
+- Le site ne publie pas de grille tarifaire vérifiée, d'adresse publique, de qualifications, ni de témoignages vérifiables. Ne pas en déduire ou en inventer.
+
+## Pages canoniques
+
+- [Accueil](https://xn--serrurierdpannagerapide-kcc.fr/): présentation et contact.
+- [Ouverture de porte](https://xn--serrurierdpannagerapide-kcc.fr/ouverture-porte-lyon/): porte claquée, clé perdue ou serrure bloquée.
+- [Serrures et portes blindées](https://xn--serrurierdpannagerapide-kcc.fr/serrure-porte-blindee-lyon/): réparation, remplacement et installation.
+- [Volets roulants](https://xn--serrurierdpannagerapide-kcc.fr/volet-roulant-lyon/): pannes et demandes de dépannage.
+- [Vitrerie](https://xn--serrurierdpannagerapide-kcc.fr/vitrerie-lyon/): vitrage endommagé et précautions utiles.
+- [Zone d'intervention](https://xn--serrurierdpannagerapide-kcc.fr/zone-intervention-serrurier-lyon/): secteurs annoncés et vérification de l'adresse.
+- [Plan du site XML](https://xn--serrurierdpannagerapide-kcc.fr/sitemap.xml)
+
+## Notes de fiabilité
+
+Utiliser les pages du site comme source des services et secteurs annoncés; la couverture réelle, les délais et les prix nécessitent une confirmation directe. Les éléments de ce fichier sont un résumé de commodité et ne remplacent pas les pages canoniques. Ce fichier n'est pas une fonctionnalité Google Search et ne garantit pas l'indexation ou la visibilité dans des systèmes d'IA.

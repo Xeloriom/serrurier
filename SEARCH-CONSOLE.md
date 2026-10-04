@@ -24,7 +24,7 @@ Le jeton de vérification est propre à votre compte et doit être généré dan
 
 ## Envoyer le sitemap et contrôler l'indexation
 
-Après déploiement, ouvrir **Indexation → Sitemaps**, saisir `sitemap.xml` (ou le chemin réellement annoncé par le `robots.txt` déployé), puis envoyer. Le sitemap de cette refonte est volontairement limité à l'accueil, qui est une page unique avec ses sections. Ne soumettez pas le sitemap statique de ce dépôt tant que le site WordPress actuel le sert encore.
+Après déploiement, ouvrir **Indexation → Sitemaps**, saisir `sitemap.xml` (ou le chemin réellement annoncé par le `robots.txt` déployé), puis envoyer. Le sitemap comprend l'accueil, quatre pages de services et une page qui décrit la zone desservie. Ne soumettez pas le sitemap statique de ce dépôt tant que le site WordPress actuel le sert encore.
 
 Ensuite, inspecter `https://xn--serrurierdpannagerapide-kcc.fr/` avec **Inspection de l'URL** :
 
@@ -48,4 +48,12 @@ Le balisage `Locksmith` du site n'inclut pas d'adresse, car aucune adresse publi
 - [Créer et envoyer un sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
 - [Demander une nouvelle exploration](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
 - [Données structurées LocalBusiness](https://developers.google.com/search/docs/appearance/structured-data/local-business)
+- [Fonctionnalités IA dans Google Search](https://developers.google.com/search/docs/appearance/ai-features)
+- [Création de contenu utile et fiable](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 - [Consignes anti-spam](https://developers.google.com/search/docs/essentials/spam-policies)
+
+## Google Search, résultats IA et autres assistants
+
+Google indique qu'il n'existe pas d'exigences techniques supplémentaires ni d'optimisation spéciale pour AI Overviews ou AI Mode : les pages doivent être indexables et respecter les bases SEO habituelles. Garder les informations importantes visibles dans le texte HTML, les liens accessibles, le balisage identique au contenu réel, des images descriptives et les données de fiche d'établissement exactes. Les visites depuis les fonctionnalités IA sont incluses dans le rapport de performances Search Console, type de recherche **Web**.
+
+`/llms.txt` est fourni comme résumé lisible par certains outils d'IA; ce n'est pas un format officiellement pris en charge par Google Search ni une garantie d'accès ou de citation. Les règles d'exploration de `robots.txt` restent la référence pour les bots qui les respectent. Ne copiez pas d'informations sensibles dans un fichier public. Lisez et tenez à jour les pages canoniques : elles priment sur le résumé.

@@ -6,14 +6,12 @@ import json
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
 ROOT = Path(__file__).resolve().parent.parent
 EXPECTED_CANONICAL = "https://xn--serrurierdpannagerapide-kcc.fr/"
-EXPECTED_TITLE = "Serrurier à Lyon et alentours | Urgence 24h/24, 7j/7"
-EXPECTED_H1_PART = "SERRURIER À LYON"
 SITEMAP_NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 DEMO_PATHS = (
     "/home-handyman/",
@@ -35,6 +33,7 @@ class PageParser(HTMLParser):
         self.h1 = []
         self.ids = set()
         self.fragments = []
+        self.links = []
         self.images = []
         self.canonical = None
         self.json_ld = []
@@ -63,6 +62,8 @@ class PageParser(HTMLParser):
             self.ids.add(attrs["id"])
         if tag == "a" and attrs.get("href", "").startswith("#"):
             self.fragments.append(attrs["href"][1:])
+        if tag == "a" and attrs.get("href"):
+            self.links.append(attrs["href"])
         if tag == "img":
             self.images.append(attrs)
 
@@ -93,7 +94,35 @@ def fetch(url):
         return response.geturl(), response.read(), response.headers.get_content_type()
 
 
-def check_page(html, source, expected_canonical, live=False):
+def route_for_page(path):
+    relative = path.parent.relative_to(ROOT)
+    if str(relative) == ".":
+        return EXPECTED_CANONICAL
+    return urljoin(EXPECTED_CANONICAL, relative.as_posix() + "/")
+
+
+def parse_page(path):
+    page = PageParser()
+    page.feed(path.read_text(encoding="utf-8"))
+    return page
+
+
+def local_pages():
+    excluded_directories = {
+        ".git",
+        "dist",
+        "node_modules",
+        "playwright-report",
+        "test-results",
+        "vendor",
+    }
+    return sorted(
+        path for path in ROOT.rglob("index.html")
+        if not excluded_directories.intersection(path.relative_to(ROOT).parts[:-1])
+    )
+
+
+def check_page(html, source, expected_canonical, is_homepage=False, live=False):
     ok = True
     page = PageParser()
     page.feed(html)
@@ -108,8 +137,12 @@ def check_page(html, source, expected_canonical, live=False):
         ok &= fail(f"{source}: og:url ne correspond pas au canonical.")
     if page.meta.get("og:image") != page.meta.get("twitter:image"):
         ok &= fail(f"{source}: images Open Graph et Twitter différentes.")
-    if len(page.h1) != 1 or EXPECTED_H1_PART not in " ".join(page.h1).upper():
-        ok &= fail(f"{source}: attendu un seul H1 local contenant « Serrurier à Lyon ».")
+    if not page.meta.get("og:image:alt") or not page.meta.get("twitter:image:alt"):
+        ok &= fail(f"{source}: texte alternatif de l'image sociale absent.")
+    if "max-image-preview:large" not in page.meta.get("robots", ""):
+        ok &= fail(f"{source}: robots n'autorise pas les grands aperçus d'image.")
+    if len(page.h1) != 1 or "LYON" not in " ".join(page.h1).upper():
+        ok &= fail(f"{source}: attendu un H1 unique et spécifique à la zone de Lyon.")
     if set(page.fragments) - page.ids:
         ok &= fail(f"{source}: ancres internes sans cible: {sorted(set(page.fragments) - page.ids)}.")
     if any("alt" not in image for image in page.images):
@@ -117,32 +150,102 @@ def check_page(html, source, expected_canonical, live=False):
 
     for image in page.images:
         image_src = image.get("src", "")
-        if image_src and not image_src.startswith(("http://", "https://", "data:")):
-            if not (ROOT / image_src).is_file() and not live:
+        if image_src and not image_src.startswith(("http://", "https://", "data:")) and not live:
+            image_url = urljoin(expected_canonical, image_src)
+            image_path = ROOT / unquote(urlsplit(image_url).path.lstrip("/"))
+            if not image_path.is_file():
                 ok &= fail(f"{source}: image locale introuvable: {image_src}.")
+
+    social_image = page.meta.get("og:image", "")
+    if social_image and not live:
+        social_path = ROOT / unquote(urlsplit(social_image).path.lstrip("/"))
+        if not social_path.is_file():
+            ok &= fail(f"{source}: image Open Graph introuvable: {social_image}.")
 
     if not page.json_ld:
         ok &= fail(f"{source}: données structurées JSON-LD absentes.")
+    elif is_homepage:
+        if not any(
+            data.get("@type") == "Locksmith"
+            and data.get("@id") == expected_canonical + "#business"
+            and data.get("telephone") == "+33778952440"
+            and data.get("url") == expected_canonical
+            for data in page.json_ld
+            if isinstance(data, dict)
+        ):
+            ok &= fail(f"{source}: données Locksmith, téléphone ou URL incohérents.")
     elif not any(
-        data.get("@type") == "Locksmith"
-        and data.get("telephone") == "+33778952440"
-        and data.get("url") == expected_canonical
+        (
+            data.get("@type") == "Service"
+            and data.get("url") == expected_canonical
+            and data.get("provider", {}).get("@id") == EXPECTED_CANONICAL + "#business"
+        )
+        or (
+            data.get("@type") == "WebPage"
+            and data.get("url") == expected_canonical
+            and data.get("about", {}).get("@id") == EXPECTED_CANONICAL + "#business"
+        )
         for data in page.json_ld
         if isinstance(data, dict)
     ):
-        ok &= fail(f"{source}: données Locksmith, téléphone ou URL incohérents.")
+        ok &= fail(f"{source}: données Service ou référence au serrurier incohérentes.")
 
-    if live and page.title.strip() != EXPECTED_TITLE:
-        ok &= fail(f"{source}: titre en ligne différent de la refonte ({page.title.strip()!r}).")
+    if not is_homepage and not any(
+        data.get("@type") == "BreadcrumbList"
+        and [
+            item.get("item")
+            for item in data.get("itemListElement", [])
+            if isinstance(item, dict)
+        ] == [EXPECTED_CANONICAL, expected_canonical]
+        for data in page.json_ld
+        if isinstance(data, dict)
+    ):
+        ok &= fail(f"{source}: fil d'Ariane JSON-LD absent ou incohérent.")
+
+    if live and not page.meta.get("robots", "index, follow").startswith("index"):
+        ok &= fail(f"{source}: page en ligne interdite à l'indexation.")
     return ok
 
 
 def check_local():
-    ok = check_page(
-        (ROOT / "index.html").read_text(encoding="utf-8"),
-        "index.html",
-        EXPECTED_CANONICAL,
-    )
+    ok = True
+    pages = local_pages()
+    known_pages = {}
+    titles = set()
+    sitemap_urls = []
+    for path in pages:
+        canonical = route_for_page(path)
+        page = parse_page(path)
+        known_pages[canonical] = page
+        sitemap_urls.append(canonical)
+        ok &= check_page(
+            path.read_text(encoding="utf-8"),
+            path.relative_to(ROOT).as_posix(),
+            canonical,
+            is_homepage=path.parent == ROOT,
+        )
+        title = page.title.strip()
+        if title in titles:
+            ok &= fail(f"{path.relative_to(ROOT)}: titre dupliqué ({title}).")
+        titles.add(title)
+
+    for canonical, page in known_pages.items():
+        for href in page.links:
+            target = urlsplit(urljoin(canonical, href))
+            if target.scheme or target.netloc or not target.path:
+                continue
+            target_path = ROOT / unquote(target.path.lstrip("/"))
+            if target.path.endswith("/"):
+                target_path /= "index.html"
+            if target_path.is_dir():
+                target_path /= "index.html"
+            target_canonical = urljoin(EXPECTED_CANONICAL, target.path)
+            target_page = known_pages.get(target_canonical)
+            if not target_path.is_file() or target_page is None:
+                ok &= fail(f"{canonical}: lien interne sans page cible ({href}).")
+            elif target.fragment and target.fragment not in target_page.ids:
+                ok &= fail(f"{canonical}: fragment inexistant pour {href}.")
+
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
     sitemap_url = EXPECTED_CANONICAL + "sitemap.xml"
     if f"Sitemap: {sitemap_url}" not in robots:
@@ -150,11 +253,35 @@ def check_local():
 
     try:
         root = ElementTree.parse(ROOT / "sitemap.xml").getroot()
-        urls = [node.text for node in root.findall(".//s:loc", SITEMAP_NS)]
-        if urls != [EXPECTED_CANONICAL]:
-            ok &= fail(f"sitemap.xml doit contenir uniquement la page canonique: {urls!r}.")
+        urls = sorted(node.text for node in root.findall(".//s:loc", SITEMAP_NS))
+        if urls != sorted(sitemap_urls):
+            ok &= fail(
+                "sitemap.xml doit répertorier exactement les pages HTML canoniques : "
+                f"attendu {sorted(sitemap_urls)!r}, obtenu {urls!r}."
+            )
     except (ElementTree.ParseError, OSError) as error:
         ok &= fail(f"sitemap.xml illisible: {error}.")
+
+    llms = ROOT / "llms.txt"
+    if not llms.is_file():
+        ok &= fail("llms.txt absent.")
+    else:
+        summary = llms.read_text(encoding="utf-8")
+        for canonical in sitemap_urls:
+            if canonical not in summary:
+                ok &= fail(f"llms.txt ne référence pas la page canonique {canonical}.")
+        if "ne garantit pas" not in summary:
+            ok &= fail("llms.txt doit préciser qu'il ne garantit pas la visibilité.")
+
+    homepage = known_pages.get(EXPECTED_CANONICAL)
+    if homepage and not any(
+        data.get("@type") == "WebSite"
+        and data.get("@id") == EXPECTED_CANONICAL + "#website"
+        and data.get("publisher", {}).get("@id") == EXPECTED_CANONICAL + "#business"
+        for data in homepage.json_ld
+        if isinstance(data, dict)
+    ):
+        ok &= fail("index.html: entité WebSite absente ou non reliée à l'entreprise.")
 
     if ok:
         print("OK: HTML, données structurées, robots.txt et sitemap localement cohérents.")
@@ -190,18 +317,6 @@ def check_live(site):
 
     ok = True
     try:
-        page_url, html, content_type = fetch(site)
-        if not content_type.startswith("text/html"):
-            ok &= fail(f"{page_url}: la page d'accueil n'est pas du HTML ({content_type}).")
-        ok &= check_page(
-            html.decode("utf-8", "replace"),
-            page_url,
-            site,
-            live=True,
-        )
-        if page_url != site:
-            ok &= fail(f"La racine redirige vers une URL non canonique: {page_url}.")
-
         _, robots_bytes, _ = fetch(urljoin(site, "robots.txt"))
         robots = robots_bytes.decode("utf-8", "replace")
         sitemap_line = next(
@@ -215,11 +330,39 @@ def check_live(site):
         if sitemap_parts.scheme != "https" or sitemap_parts.netloc != parts.netloc:
             raise ValueError(f"Le sitemap doit être sur le même hôte HTTPS: {sitemap_line}")
         urls = collect_sitemap_urls(sitemap_line, set())
-        if site not in urls:
-            ok &= fail(f"Le sitemap en ligne ne contient pas la page canonique {site}.")
+        expected_urls = sorted(route_for_page(path) for path in local_pages())
+        if sorted(urls) != expected_urls:
+            published_only = sorted(set(urls) - set(expected_urls))
+            missing = sorted(set(expected_urls) - set(urls))
+            ok &= fail(
+                "Le sitemap en ligne ne correspond pas aux pages du dépôt "
+                f"(URLs non présentes ici : {len(published_only)}, "
+                f"pages du dépôt absentes : {len(missing)}). "
+                f"Exemples en ligne : {published_only[:5]!r}; "
+                f"pages du dépôt à publier : {missing[:5]!r}."
+            )
         unrelated = [url for url in urls if any(path in urlsplit(url).path for path in DEMO_PATHS)]
         if unrelated:
-            ok &= fail(f"Le sitemap en ligne contient des pages de démonstration: {unrelated}.")
+            ok &= fail(
+                f"Le sitemap en ligne contient {len(unrelated)} URL(s) de démonstration, "
+                f"par exemple : {unrelated[:5]!r}."
+            )
+
+        for local_path in local_pages():
+            canonical = route_for_page(local_path)
+            page_url, html, content_type = fetch(canonical)
+            if page_url != canonical:
+                ok &= fail(f"{canonical}: redirige vers une URL non canonique ({page_url}).")
+                continue
+            if not content_type.startswith("text/html"):
+                ok &= fail(f"{page_url}: la page n'est pas du HTML ({content_type}).")
+            ok &= check_page(
+                html.decode("utf-8", "replace"),
+                page_url,
+                canonical,
+                is_homepage=local_path.parent == ROOT,
+                live=True,
+            )
     except (OSError, ValueError, ElementTree.ParseError, StopIteration) as error:
         ok &= fail(f"Vérification sitemap/robots en ligne impossible: {error}.")
 
