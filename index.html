@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serrurier à Lyon et alentours | Urgence 24h/24, 7j/7</title>
+  <meta
+          name="description"
+          content="Serrurier à Lyon et alentours, 24h/24 et 7j/7. Ouverture de porte, dépannage, serrures, volets roulants et vitrerie. Appelez le 07 78 95 24 40."
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#fcfcfc" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="Serrurier à Lyon et alentours | Urgence 24h/24, 7j/7" />
+  <meta property="og:description" content="Ouverture de porte, dépannage et pose de serrure, volets roulants et vitrerie à Lyon et alentours. Disponible 24h/24 et 7j/7." />
+  <meta property="og:site_name" content="Serrurier Dépannage Rapide" />
+  <meta property="og:url" content="https://xn--serrurierdpannagerapide-kcc.fr/" />
+  <meta property="og:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg" />
+  <meta property="og:image:alt" content="Serrurier intervenant sur une porte" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Serrurier à Lyon et alentours | Urgence 24h/24, 7j/7" />
+  <meta name="twitter:description" content="Ouverture de porte, dépannage et pose de serrure à Lyon et alentours. Disponible 24h/24 et 7j/7." />
+  <meta name="twitter:image" content="https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg" />
+  <meta name="twitter:image:alt" content="Serrurier intervenant sur une porte" />
+  <link rel="canonical" href="https://xn--serrurierdpannagerapide-kcc.fr/" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Locksmith",
+      "name": "Serrurier Dépannage Rapide",
+      "url": "https://xn--serrurierdpannagerapide-kcc.fr/",
+      "image": "https://xn--serrurierdpannagerapide-kcc.fr/assets/locksmith-work.jpg",
+      "description": "Serrurier à Lyon et alentours, disponible 24h/24 et 7j/7 pour l'ouverture de porte, le dépannage et la pose de serrures, les volets roulants et la vitrerie.",
+      "telephone": "+33778952440",
+      "areaServed": [
+        "Lyon et périphérie",
+        "Nord-Isère",
+        "Est lyonnais",
+        "Plaine de l'Ain et Bugey",
+        "Vallons du Dauphiné"
+      ],
+      "openingHours": "Mo-Su 00:00-23:59",
+      "knowsLanguage": "French"
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+          rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="vendor/lenis.css" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="vendor/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    }
+    @layer utilities {
+      .text-mega {
+        font-size: 21vw;
+        line-height: 0.75;
+        letter-spacing: -0.04em;
+      }
+    }
+  </style>
+
+  <script src="vendor/lenis.min.js"></script>
+  <script
+    defer
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/zod@3.22.4/lib/index.umd.js"></script>
+  <script defer src="main.js"></script>
+  <script defer src="vendor/alpine.min.js"></script>
+</head>
+
+<body class="font-sans bg-[#fcfcfc] text-[#111] overflow-x-hidden selection:bg-black selection:text-white">
+<!-- Sprite d'icônes (style Lucide) -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24">
+      <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4" /><path d="m21 2-9.6 9.6" /><circle cx="7.5" cy="15.5" r="5.5" />
+    </symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+    </symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z" />
+    </symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24">
+      <path d="M13 4h3a2 2 0 0 1 2 2v14" /><path d="M2 20h3" /><path d="M13 20h9" /><path d="M10 12v.01" />
+      <path d="M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" />
+    </symbol>
+    <filter id="hero-liquid-filter" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.065" numOctaves="2" seed="8" result="liquid-noise" />
+      <feDisplacementMap id="hero-liquid-displacement" in="SourceGraphic" in2="liquid-noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+</svg>
+
+<div id="app" x-data="museum" class="relative w-full min-h-screen">
+  <main>
+  <!-- ================================================================ -->
+  <!--  SECTION 1 — HERO                                                 -->
+  <!-- ================================================================ -->
+  <section id="top" class="hero-section relative w-full flex flex-col">
+    <!-- Logo + sub-nav -->
+    <header class="site-header relative pt-6 px-6 md:px-16 z-20" data-stagger data-delay="0" data-step="0.08">
+      <div id="logo" class="logo w-[150px] sm:w-[180px] md:w-[220px] m-0" data-st>
+        <span class="sr-only">Serrurier Dépannage Rapide</span>
+        <svg viewBox="0 0 840 100" class="block w-full h-auto fill-[#111] overflow-hidden" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- S -->
+          <g transform="translate(0,0)">
+            <polygon class="letter" points="0,0 214,0 214,14 0,14" />
+            <polygon class="letter" points="0,14 14,14 14,50 0,50" />
+            <polygon class="letter" points="0,43 214,43 214,57 0,57" />
+            <polygon class="letter" points="200,50 214,50 214,86 200,86" />
+            <polygon class="letter" points="0,86 214,86 214,100 0,100" />
+          </g>
+          <!-- D -->
+          <g transform="translate(313,0)">
+            <polygon class="letter" points="0,0 14,0 14,100 0,100" />
+            <polygon class="letter" points="14,0 150,0 150,14 14,14" />
+            <polygon class="letter" points="14,86 150,86 150,100 14,100" />
+            <polygon class="letter" points="150,0 168,0 214,50 168,100 150,100 200,50" />
+          </g>
+          <!-- R -->
+          <g transform="translate(626,0)">
+            <polygon class="letter" points="0,0 14,0 14,100 0,100" />
+            <polygon class="letter" points="14,0 200,0 200,14 14,14" />
+            <polygon class="letter" points="200,0 214,0 214,57 200,57" />
+            <polygon class="letter" points="14,43 200,43 200,57 14,57" />
+            <polygon class="letter" points="110,57 143,57 214,100 181,100" />
+          </g>
+        </svg>
+        <span class="mt-1 block text-[9px] font-mono uppercase tracking-[0.16em] text-gray-500">Serrurier Dépannage Rapide</span>
+      </div>
+
+      <div data-st class="fade-up flex justify-between items-center mt-5 md:mt-3 text-[10px] md:text-[11px] font-mono tracking-[0.12em] uppercase">
+        <div class="md:hidden pr-4 leading-relaxed text-gray-800">
+          <div>Serrurier</div>
+          <div>Dépannage</div>
+          <div>Rapide</div>
+        </div>
+
+        <p class="flex-1 px-2 leading-relaxed text-gray-800 font-mono md:hidden">
+          Dépannage, serrures, portes blindées, volets roulants et vitrerie. Disponible 24h/24 et 7j/7.
+        </p>
+
+        <nav class="hidden md:block md:flex-1" aria-label="Navigation principale">
+        <ul class="flex justify-end items-center gap-4 lg:gap-6 text-gray-800 text-[10px] lg:text-[11px] font-mono uppercase tracking-wider">
+          <li><a href="#top" @click.prevent="go('#top')" class="hover:text-black hover:underline">Accueil</a></li>
+          <li><a href="#explore" @click.prevent="go('#explore')" class="hover:text-black hover:underline">Services</a></li>
+          <li><a href="#prestations" @click.prevent="go('#prestations')" class="hover:text-black hover:underline">Prestations</a></li>
+          <li><a href="#zone" @click.prevent="go('#zone')" class="hover:text-black hover:underline">Zone d'intervention</a></li>
+          <li><a href="#faq" @click.prevent="go('#faq')" class="hover:text-black hover:underline">FAQ</a></li>
+          <li><a href="#contact" @click.prevent="go('#contact')" class="border border-black rounded-full px-4 py-2 hover:bg-black hover:text-white transition-colors">Contact</a></li>
+        </ul>
+        </nav>
+
+        <button
+                type="button"
+                class="md:hidden group relative z-[60] flex flex-col items-end gap-[6px] p-2 -mr-2 cursor-pointer"
+                :aria-label="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+                :aria-expanded="menuOpen"
+                aria-controls="mobile-navigation"
+                @click="menuOpen = !menuOpen"
+        >
+          <span class="block h-[1.5px] bg-black transition-all duration-300" :class="menuOpen ? 'w-8 rotate-45 translate-y-[3.75px]' : 'w-8 group-hover:w-6'"></span>
+          <span class="block h-[1.5px] bg-black transition-all duration-300" :class="menuOpen ? 'w-8 -rotate-45 -translate-y-[3.75px]' : 'w-8 group-hover:w-10'"></span>
+        </button>
+      </div>
+
+      <!-- Menu mobile -->
+      <div
+              x-cloak
+              x-show="menuOpen"
+              x-transition:enter="transition duration-300 ease-out"
+              x-transition:enter-start="opacity-0 -translate-y-5"
+              x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition duration-300 ease-out"
+              x-transition:leave-start="opacity-100 translate-y-0"
+              x-transition:leave-end="opacity-0 -translate-y-5"
+              id="mobile-navigation"
+              class="md:hidden absolute left-0 right-0 top-full bg-[#fcfcfc] border-b border-gray-200 shadow-xl px-6 py-10"
+      >
+        <nav aria-label="Navigation mobile">
+        <ul class="space-y-6 text-sm font-mono tracking-[0.12em] uppercase">
+          <li><a href="#top" @click.prevent="go('#top')" class="text-gray-800 hover:text-black hover:underline">Accueil</a></li>
+          <li><a href="#explore" @click.prevent="go('#explore')" class="text-gray-800 hover:text-black hover:underline">Services</a></li>
+          <li><a href="#prestations" @click.prevent="go('#prestations')" class="text-gray-800 hover:text-black hover:underline">Prestations</a></li>
+          <li><a href="#zone" @click.prevent="go('#zone')" class="text-gray-800 hover:text-black hover:underline">Zone d'intervention</a></li>
+          <li><a href="#faq" @click.prevent="go('#faq')" class="text-gray-800 hover:text-black hover:underline">Questions fréquentes</a></li>
+          <li><a href="#contact" @click.prevent="go('#contact')" class="text-gray-800 hover:text-black hover:underline">Contact</a></li>
+        </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero-story relative z-10">
+      <div class="hero-main">
+        <article id="hero-step-1" class="hero-copy hero-step reveal" data-hero-image="0">
+          <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>01</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
+          <h1 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">SERRURIER À LYON<br />EN URGENCE ?</h1>
+          <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
+            Besoin d'un serrurier à Lyon ou en périphérie ? Dépannage, ouverture de porte et réparation de serrure, de jour comme de nuit.
+          </p>
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <a href="#contact" data-phone class="group relative inline-flex overflow-hidden bg-[#1a1a1a] px-6 py-3.5 border border-[#1a1a1a] rounded-md shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_rgba(17,17,17,0.5)]">
+              <span class="absolute inset-0 bg-[#fcfcfc] -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"></span>
+              <span class="relative z-10 flex items-center gap-3">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-white group-hover:text-[#111] transition-colors duration-500" aria-hidden="true"><use href="#i-phone" /></svg>
+                <span data-phone-action data-phone-fallback="Demander un devis" class="text-[15px] font-medium text-white group-hover:text-[#111] transition-colors duration-500">Appeler · 07 78 95 24 40</span>
+              </span>
+            </a>
+            <a href="#details" @click.prevent="go('#details')" class="text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-black">Voir les prestations</a>
+          </div>
+          <a href="#hero-step-2" @click.prevent="go('#hero-step-2')" class="scroll-cue mt-10 inline-flex items-center gap-3 text-[10px] font-mono tracking-widest uppercase text-gray-500">
+            <span class="scroll-cue-icon flex items-center justify-center w-10 h-10 rounded-full border border-gray-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+            </span>
+            <span>Défiler pour découvrir</span>
+          </a>
+        </article>
+
+        <article id="hero-step-2" class="hero-copy hero-step reveal" data-hero-image="1" style="--d: 0.08s">
+          <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>02</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
+          <h2 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">UNE PORTE<br />BLOQUÉE ?</h2>
+          <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
+            Ouverture de porte, dépannage de serrure, porte blindée et volets roulants : décrivez votre besoin pour trouver la bonne solution.
+          </p>
+          <a href="#details" @click.prevent="go('#details')" class="inline-flex items-center gap-3 text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-black">Découvrir les prestations <span aria-hidden="true">↗</span></a>
+        </article>
+
+        <article id="hero-step-3" class="hero-copy hero-step reveal" data-hero-image="2" style="--d: 0.08s">
+          <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>03</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
+          <h2 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">LYON &amp;<br />ALENTOURS</h2>
+          <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
+            Disponible 24h/24 et 7j/7 à Lyon et dans les communes voisines. Appelez pour vérifier la disponibilité dans votre secteur.
+          </p>
+          <a href="#contact" data-phone class="inline-flex items-center gap-3 text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-black">
+            Appeler · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      </div>
+
+      <div class="hero-visual reveal">
+        <img
+          class="hero-photo is-active"
+          src="assets/locksmith-work.jpg"
+          alt="Serrurier en intervention sur une serrure de porte"
+          data-chapter="0"
+          fetchpriority="high"
+          width="1280"
+          height="961"
+        />
+        <img class="hero-photo" alt="" aria-hidden="true" width="1280" height="961" />
+        <div class="hero-image-status" aria-hidden="true">
+          <span class="hero-image-count"><span id="hero-image-current">01</span><span> / 03</span></span>
+          <span class="hero-image-name" id="hero-image-name">Dépannage d'urgence</span>
+          <span class="hero-image-progress">
+            <span class="is-active"></span><span></span><span></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!--  SECTION 2 — SERVICES                                             -->
+  <!-- ================================================================ -->
+  <section id="explore" class="relative w-full bg-[#fcfcfc] flex flex-col items-center text-center pt-20 md:pt-28 pb-16 px-6 z-20">
+    <div class="text-[10px] md:text-[11px] font-mono tracking-[0.2em] mb-12">
+      [ <span class="text-gray-500">02</span> ]
+      <span class="text-gray-900 font-bold uppercase">Nos services</span>
+    </div>
+
+    <h2
+            class="reveal max-w-[1000px] text-[2.2rem] md:text-[3.5rem] lg:text-[4.2rem] leading-[1.1] font-medium tracking-tight text-[#111]"
+            style="--y: 40px; --dur: 1s; --ease: cubic-bezier(0.16, 1, 0.3, 1)"
+    >
+      Serrurier à Lyon et en périphérie : urgence, installation et réparation, 24h/24 et 7j/7.
+    </h2>
+
+    <nav aria-label="Accès rapide à nos services" class="service-shortcuts" data-reveal-stagger data-delay="0.12" data-step="0.06">
+      <div class="reveal">
+        <a href="#prestations" @click.prevent="selectChapter(0); go('#prestations')" class="service-shortcut">
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-door-open" /></svg></span><span>Ouverture de porte</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="reveal">
+        <a href="#prestations" @click.prevent="selectChapter(2); go('#prestations')" class="service-shortcut">
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-key" /></svg></span><span>Serrures</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="reveal">
+        <a href="#prestations" @click.prevent="selectChapter(1); go('#prestations')" class="service-shortcut">
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield" /></svg></span><span>Porte blindée</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="reveal">
+        <a href="#prestations" @click.prevent="selectChapter(3); go('#prestations')" class="service-shortcut">
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-wrench" /></svg></span><span>Volets roulants</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="reveal">
+        <a href="#contact" @click.prevent="go('#contact')" class="service-shortcut service-shortcut-cta">
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg></span><span>Demander un devis</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </nav>
+
+    <div id="spacer" class="h-12 md:h-20"></div>
+
+    <div class="absolute bottom-0 left-0 w-full hidden md:flex justify-between px-8 md:px-16 pb-8 md:pb-12 pointer-events-none">
+      <span class="text-[10px] font-mono tracking-widest uppercase text-gray-500 font-medium">UNE PORTE FERMÉE, UNE SOLUTION.</span>
+      <span class="text-[10px] font-mono tracking-widest uppercase text-gray-500 font-medium">LYON &amp; PÉRIPHÉRIE · 24H/24 · 7J/7</span>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!--  SECTION 3 — PRESTATIONS                                          -->
+  <!-- ================================================================ -->
+  <section id="prestations" class="relative w-full bg-[#0a0a0a] text-white flex flex-col z-30">
+    <div class="relative z-10 flex flex-col xl:flex-row xl:items-end justify-between gap-8 px-6 md:px-16 pt-20 md:pt-28 mb-12">
+      <h2 class="max-w-[1000px] text-[1.8rem] md:text-[3rem] lg:text-[3.8rem] xl:text-[4rem] leading-[1.15] font-medium tracking-tight text-white">
+        Un serrurier rapidement à Lyon, 24h/24.
+      </h2>
+
+      <div class="shrink-0">
+        <p class="text-[9px] md:text-[10px] font-mono tracking-widest text-gray-400 uppercase mb-6 leading-relaxed">
+              LYON &amp; PÉRIPHÉRIE<br />DISPONIBLE 24H/24 · 7J/7
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Urgences</span>
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">24h/24 · 7j/7</span>
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Particuliers &amp; pros</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative z-10 h-[1px] w-full bg-gray-800"></div>
+    <div class="relative z-10 flex flex-col md:flex-row">
+      <!-- Gauche (35%) -->
+      <div class="service-photo-panel relative w-full md:w-[35%] min-h-[300px] md:min-h-[400px] border-b md:border-b-0 md:border-r border-gray-800 flex flex-col justify-between p-5 md:p-8">
+        <img id="chapter-photo" class="chapter-photo absolute inset-0 w-full h-full object-cover" alt="" draggable="false" />
+        <div class="relative z-10 flex items-center gap-2 text-[10px] font-mono tracking-widest text-white/75 uppercase">
+          <span class="flip-box"><span id="chapter-counter" x-text="pad(activeChapter + 1)">01</span></span>
+          <span class="text-white/50">/</span>
+          <span x-text="pad(chapters.length)">05</span>
+        </div>
+        <span class="service-photo-caption relative z-10" x-text="chapters[activeChapter].name"></span>
+      </div>
+
+      <!-- Droite (65%) -->
+      <div class="w-full md:w-[65%] flex flex-col">
+        <div class="flex items-center justify-between gap-4 border-b border-gray-800 px-5 md:px-8 py-5 text-[10px] font-mono text-gray-400 tracking-widest uppercase">
+          <span>Nos interventions</span>
+          <span class="flip-box"><span id="chapter-label" class="whitespace-nowrap" x-text="'Prestation ' + pad(activeChapter + 1)">Prestation 01</span></span>
+        </div>
+
+        <ul class="flex-1 flex flex-col">
+          <template x-for="(c, i) in chapters" :key="c.name">
+            <li class="border-b border-gray-800/80">
+              <button
+                      type="button"
+                      @click="selectChapter(i)"
+                      :aria-pressed="activeChapter === i"
+                      class="w-full flex items-center justify-between gap-4 text-left px-5 md:px-8 py-6 md:py-7 transition-colors duration-300 cursor-pointer"
+                      :class="activeChapter === i ? 'text-white' : 'text-[#888] hover:text-white'"
+              >
+                <span class="text-2xl md:text-[2rem] font-medium tracking-tight" x-text="c.name"></span>
+                <span
+                        x-show="activeChapter === i"
+                        x-transition:enter="transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        x-transition:enter-start="opacity-0 -translate-x-3 translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-x-0 translate-y-0"
+                        x-transition:leave="transition duration-300 ease-out"
+                        x-transition:leave-start="opacity-100 translate-x-0 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-x-3 translate-y-2"
+                        class="text-gray-400"
+                >
+                      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow-up-right" /></svg>
+                    </span>
+              </button>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </div>
+
+    <div class="relative z-10 h-[1px] w-full bg-gray-800"></div>
+    <p class="relative z-10 px-8 py-8 text-[10px] font-mono tracking-widest text-gray-500 uppercase bg-[#0a0a0a] leading-relaxed">
+    Disponible 24h/24 · 7j/7 — Lyon, périphérie, Nord-Isère et Plaine de l'Ain
+    </p>
+  </section>
+
+  <section id="details" class="px-6 md:px-16 py-20 md:py-32 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <p class="text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-500 mb-5">Serrurerie · Dépannage · Installation</p>
+      <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-24 mb-14 md:mb-20">
+        <h2 class="reveal text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium">Une solution adaptée à chaque porte.</h2>
+        <p class="reveal text-base md:text-lg leading-relaxed text-gray-600 max-w-2xl" style="--d: 0.12s">
+          Une porte qui ne s'ouvre plus, une serrure usée ou une vitrine endommagée : chaque situation est différente.
+          Serrurier Dépannage Rapide vous accompagne à Lyon et dans les communes voisines pour vos urgences, le remplacement
+          et l'installation de serrures, les portes blindées, les volets roulants et la vitrerie. Appelez pour décrire votre besoin.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 border-t border-gray-200" data-reveal-stagger data-delay="0.04" data-step="0.08">
+        <article class="reveal service-card border-b md:border-r border-gray-200 p-7 md:p-9">
+          <img class="service-illustration" src="assets/locksmith-work.jpg" alt="Serrurier intervenant sur une porte" loading="lazy" width="1280" height="961" />
+          <span class="font-mono text-xs text-gray-400">01 / ACCÈS</span>
+          <h3 class="mt-8 mb-4 text-2xl font-medium">Ouverture de porte</h3>
+          <p class="leading-relaxed text-gray-600">Porte claquée, clé perdue ou serrure bloquée ? Décrivez les symptômes pour identifier la solution adaptée à votre porte et à votre situation.</p>
+        </article>
+        <article class="reveal service-card border-b xl:border-r border-gray-200 p-7 md:p-9">
+          <img class="service-illustration" src="assets/security-door.webp" alt="Serrure multipoints sur une porte sécurisée" loading="lazy" width="1800" height="1296" />
+          <span class="font-mono text-xs text-gray-400">02 / SÉCURITÉ</span>
+          <h3 class="mt-8 mb-4 text-2xl font-medium">Dépannage et pose de serrure</h3>
+          <p class="leading-relaxed text-gray-600">Remplacement d'un cylindre ou d'une serrure, installation et conseils pour sécuriser une porte après une perte de clés ou une effraction.</p>
+        </article>
+        <article class="reveal service-card border-b md:border-r xl:border-r-0 border-gray-200 p-7 md:p-9">
+          <img class="service-illustration" src="assets/door-installation.jpg" alt="Artisan réparant une porte et sa serrure" loading="lazy" width="1600" height="1201" />
+          <span class="font-mono text-xs text-gray-400">03 / RÉPARATION</span>
+          <h3 class="mt-8 mb-4 text-2xl font-medium">Réparation et remplacement de serrure</h3>
+          <p class="leading-relaxed text-gray-600">Serrure usée, endommagée ou bloquée : faites vérifier le mécanisme et les options de réparation ou de remplacement.</p>
+        </article>
+        <article class="reveal service-card border-b md:border-r xl:border-b-0 border-gray-200 p-7 md:p-9">
+          <img class="service-illustration" src="assets/rolling-shutter.webp" alt="Volets roulants installés sur une maison" loading="lazy" width="1024" height="778" />
+          <span class="font-mono text-xs text-gray-400">04 / VOLETS</span>
+          <h3 class="mt-8 mb-4 text-2xl font-medium">Réparation de volets roulants</h3>
+          <p class="leading-relaxed text-gray-600">Un volet roulant bloqué ou endommagé ? Demandez un dépannage pour retrouver un fonctionnement normal et sécuriser vos ouvertures.</p>
+        </article>
+        <article class="reveal service-card border-b md:border-b-0 md:border-r border-gray-200 p-7 md:p-9">
+          <img class="service-illustration" src="assets/glazing.webp" alt="Vitrier ajustant un vitrage dans une fenêtre" loading="lazy" width="1200" height="800" />
+          <span class="font-mono text-xs text-gray-400">05 / VITRERIE</span>
+          <h3 class="mt-8 mb-4 text-2xl font-medium">Vitrerie</h3>
+          <p class="leading-relaxed text-gray-600">Vitrage cassé ou endommagé : contactez le serrurier-vitrier pour faire sécuriser et remplacer le vitrage selon votre situation.</p>
+        </article>
+        <article class="reveal bg-[#f4f3ef] p-7 md:p-9 flex flex-col justify-between min-h-64">
+          <div>
+            <span class="font-mono text-xs text-gray-500">POUR LES PARTICULIERS &amp; PROS</span>
+              <h3 class="mt-8 mb-4 text-2xl font-medium">Un besoin de serrurerie ?</h3>
+              <p class="leading-relaxed text-gray-600">Dépannage à domicile, sécurisation d'un logement ou intervention pour votre local professionnel.</p>
+          </div>
+          <a href="#contact" class="mt-8 inline-flex items-center gap-3 font-medium underline underline-offset-4">Demander un devis <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 md:px-16 py-20 md:py-28 bg-[#f4f3ef]">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-24">
+      <div>
+        <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-500 mb-5">Comment ça se passe ?</p>
+        <h2 class="reveal text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Simple, clair, sans détour.</h2>
+        <p class="reveal mt-6 text-gray-600 leading-relaxed max-w-xl" style="--d: 0.16s">Pour une urgence comme pour un projet de serrure, quelques informations suffisent pour commencer : votre commune, le type de porte et ce qui ne fonctionne plus.</p>
+      </div>
+      <ol class="divide-y divide-gray-300 border-y border-gray-300" data-reveal-stagger data-delay="0.04" data-step="0.1">
+        <li class="reveal py-6 flex gap-6">
+          <span class="font-mono text-sm text-gray-500">01</span>
+          <div><h3 class="font-medium text-lg">Décrivez le problème</h3><p class="mt-2 text-gray-600 leading-relaxed">Indiquez où vous vous trouvez et si la porte est claquée, verrouillée ou si la serrure est endommagée.</p></div>
+        </li>
+        <li class="reveal py-6 flex gap-6">
+          <span class="font-mono text-sm text-gray-500">02</span>
+          <div><h3 class="font-medium text-lg">Parlez à un serrurier</h3><p class="mt-2 text-gray-600 leading-relaxed">Expliquez la situation et votre adresse pour vérifier la disponibilité et les solutions possibles.</p></div>
+        </li>
+        <li class="reveal py-6 flex gap-6">
+          <span class="font-mono text-sm text-gray-500">03</span>
+          <div><h3 class="font-medium text-lg">Choisissez la suite</h3><p class="mt-2 text-gray-600 leading-relaxed">Une fois votre besoin clarifié, vous pouvez décider de la solution qui vous convient.</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="zone" class="px-6 md:px-16 py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24 items-start">
+      <div>
+        <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-500 mb-5">Zone d'intervention · Rhône &amp; départements voisins</p>
+        <h2 class="reveal text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Lyon, sa périphérie et les communes voisines.</h2>
+        <div
+          id="intervention-map"
+          class="zone-map reveal"
+          style="--d: 0.16s"
+          role="region"
+          aria-label="Carte indicative des communes desservies autour de Lyon"
+        ></div>
+        <p class="mt-3 text-xs leading-relaxed text-gray-500">Carte indicative. Appelez pour confirmer la prise en charge de votre adresse.</p>
+      </div>
+      <div class="text-gray-600 leading-relaxed space-y-5">
+        <p class="reveal">Les déplacements couvrent Lyon et sa périphérie, l'Est lyonnais, le Nord-Isère ainsi que la Plaine de l'Ain et le Bugey. Le serrurier intervient auprès des particuliers et des professionnels.</p>
+        <p class="reveal" style="--d: 0.08s">Parmi les communes desservies : Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Appelez pour confirmer la prise en charge de votre adresse et le délai disponible.</p>
+        <a href="tel:+33778952440" data-phone class="reveal inline-flex items-center gap-3 text-[#111] font-medium underline underline-offset-4" style="--d: 0.16s">Vérifier ma commune · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="px-6 md:px-16 py-20 md:py-28 bg-[#f4f3ef]">
+    <div class="max-w-5xl mx-auto">
+      <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-500 mb-5">FAQ serrurerie</p>
+      <h2 class="reveal text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium mb-12" style="--d: 0.08s">Vos questions, nos réponses.</h2>
+      <div class="divide-y divide-gray-300 border-y border-gray-300" data-reveal-stagger data-delay="0.04" data-step="0.08">
+        <details class="reveal faq-item group py-6">
+          <summary class="flex justify-between items-center gap-6 cursor-pointer list-none text-lg md:text-xl font-medium">
+            Que faire si ma porte est claquée ?
+            <span class="faq-icon text-2xl font-light" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 max-w-3xl leading-relaxed text-gray-600">Évitez de forcer la porte ou la serrure, car cela peut aggraver les dégâts. Décrivez si la porte est simplement claquée ou verrouillée et précisez votre commune pour demander conseil et un devis.</p>
+        </details>
+        <details class="reveal faq-item group py-6">
+          <summary class="flex justify-between items-center gap-6 cursor-pointer list-none text-lg md:text-xl font-medium">
+            Quels services propose votre serrurier ?
+            <span class="faq-icon text-2xl font-light" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 max-w-3xl leading-relaxed text-gray-600">Les interventions comprennent le dépannage d'urgence, l'installation de serrures et portes blindées, la réparation de serrures, les volets roulants et la vitrerie.</p>
+        </details>
+        <details class="reveal faq-item group py-6">
+          <summary class="flex justify-between items-center gap-6 cursor-pointer list-none text-lg md:text-xl font-medium">
+            Comment obtenir un devis de serrurier ?
+            <span class="faq-icon text-2xl font-light" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 max-w-3xl leading-relaxed text-gray-600">Indiquez votre adresse ou votre commune, le type de porte et le problème rencontré. Le serrurier pourra préciser la disponibilité et les modalités de l'intervention.</p>
+        </details>
+        <details class="reveal faq-item group py-6">
+          <summary class="flex justify-between items-center gap-6 cursor-pointer list-none text-lg md:text-xl font-medium">
+            Le dépannage est-il disponible la nuit et le week-end ?
+            <span class="faq-icon text-2xl font-light" aria-hidden="true">+</span>
+          </summary>
+          <p class="mt-4 max-w-3xl leading-relaxed text-gray-600">Le service est annoncé 24h/24 et 7j/7. Contactez le serrurier pour confirmer la disponibilité et le délai selon votre localisation et le dépannage demandé.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="px-6 md:px-16 py-20 md:py-28 bg-[#111] text-white">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-[1fr_0.85fr] gap-10 lg:gap-16 items-start">
+      <div>
+        <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-400 mb-5">Serrurier · Lyon &amp; périphérie · 24h/24</p>
+        <h2 class="reveal max-w-3xl text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Une porte bloquée ? Parlons-en.</h2>
+        <p class="reveal mt-6 max-w-2xl leading-relaxed text-gray-300" style="--d: 0.16s">Ouverture de porte, serrure bloquée, porte blindée, volet roulant ou vitrage : appelez Serrurier Dépannage Rapide, disponible 24h/24 et 7j/7.</p>
+        <a href="tel:+33778952440" data-phone class="reveal mt-7 inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-[#111] font-medium transition-colors hover:bg-gray-200" style="--d: 0.2s">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg>
+          <span data-phone-action data-phone-fallback="Demander un devis">Appeler pour un devis</span>
+        </a>
+      </div>
+      <form id="quote-form" class="reveal grid gap-4" novalidate>
+        <p class="text-sm text-gray-300">Ou décrivez votre besoin : un message sera préparé dans WhatsApp, sans être envoyé automatiquement.</p>
+        <div>
+          <label for="quote-name" class="mb-1.5 block text-sm font-medium">Votre nom</label>
+          <input id="quote-name" name="name" autocomplete="name" required maxlength="80" class="quote-input" />
+        </div>
+        <div>
+          <label for="quote-city" class="mb-1.5 block text-sm font-medium">Commune d’intervention</label>
+          <input id="quote-city" name="city" autocomplete="address-level2" required maxlength="100" class="quote-input" />
+        </div>
+        <div>
+          <label for="quote-message" class="mb-1.5 block text-sm font-medium">Que s’est-il passé ?</label>
+          <textarea id="quote-message" name="message" rows="4" required minlength="10" maxlength="1000" class="quote-input resize-y"></textarea>
+        </div>
+        <p id="quote-form-status" class="min-h-5 text-sm text-gray-300" aria-live="polite"></p>
+        <button type="submit" class="inline-flex items-center justify-center rounded-full border border-white px-6 py-3 font-medium transition-colors hover:bg-white hover:text-[#111]">Continuer sur WhatsApp</button>
+        <p class="text-xs leading-relaxed text-gray-400">En continuant, vous ouvrirez WhatsApp et pourrez vérifier votre message avant de l’envoyer.</p>
+      </form>
+    </div>
+    <div class="max-w-7xl mx-auto mt-16 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between gap-3 text-xs text-gray-400">
+      <span>Serrurier Dépannage Rapide · Lyon &amp; périphérie</span>
+      <a href="tel:+33778952440" data-phone class="text-gray-300 hover:text-white transition-colors"><span data-phone-text>07 78 95 24 40</span> · Disponible 24h/24, 7j/7</a>
+    </div>
+  </section>
+  <a href="#contact" data-phone class="mobile-contact-cta" aria-label="Demander un devis au serrurier">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg>
+    <span data-phone-action data-phone-fallback="Demander un devis">Appeler le serrurier</span>
+    <span aria-hidden="true">↗</span>
+  </a>
+  </main>
+  </div>
+</body>
+</html>

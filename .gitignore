@@ -1,0 +1,16 @@
+# Dependencies / generated
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local environment
+.env
+.env.*
+
+# OS files
+coverage/
