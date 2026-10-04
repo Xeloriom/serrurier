@@ -22,11 +22,46 @@ for (const { path, title } of pages) {
     expect(response?.status(), `${path} should return HTTP 200`).toBe(200);
     await expect(page).toHaveTitle(title);
     await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      `https://xn--serrurierdpannagerapide-kcc.fr${path}`,
+    );
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      'content',
+      `https://xn--serrurierdpannagerapide-kcc.fr${path}`,
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      'content',
+      'index, follow, max-image-preview:large',
+    );
     await page.waitForTimeout(500);
 
     expect(errors, `Browser console errors on ${path}`).toEqual([]);
   });
 }
+
+test('crawler discovery files list all canonical public pages', async ({ request }) => {
+  const [robots, sitemap, llms] = await Promise.all([
+    request.get('/robots.txt'),
+    request.get('/sitemap.xml'),
+    request.get('/llms.txt'),
+  ]);
+
+  expect(robots.status()).toBe(200);
+  expect(await robots.text()).toContain(
+    'Sitemap: https://xn--serrurierdpannagerapide-kcc.fr/sitemap.xml',
+  );
+  expect(sitemap.status()).toBe(200);
+  expect(llms.status()).toBe(200);
+
+  const sitemapText = await sitemap.text();
+  const llmsText = await llms.text();
+  for (const { path } of pages) {
+    const canonical = `https://xn--serrurierdpannagerapide-kcc.fr${path}`;
+    expect(sitemapText).toContain(`<loc>${canonical}</loc>`);
+    expect(llmsText).toContain(canonical);
+  }
+});
 
 test('homepage menu and quote form work without browser errors', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
