@@ -507,12 +507,21 @@
           role="region"
           aria-label="Carte indicative des communes desservies autour de Lyon"
         ></div>
-        <p class="mt-3 text-xs leading-relaxed text-gray-500">Carte indicative. Appelez pour confirmer la prise en charge de votre adresse.</p>
+        <p class="mt-3 text-xs leading-relaxed text-gray-500">Repères indicatifs des communes citées, sans délimiter un rayon garanti. Appelez pour confirmer la prise en charge de votre adresse.</p>
       </div>
       <div class="text-gray-600 leading-relaxed space-y-5">
         <p class="reveal">Les déplacements couvrent Lyon et sa périphérie, l'Est lyonnais, le Nord-Isère ainsi que la Plaine de l'Ain et le Bugey. Le serrurier intervient auprès des particuliers et des professionnels.</p>
         <p class="reveal" style="--d: 0.08s">Parmi les communes desservies : Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Appelez pour confirmer la prise en charge de votre adresse et le délai disponible.</p>
         <a href="tel:+33778952440" data-phone class="reveal inline-flex items-center gap-3 text-[#111] font-medium underline underline-offset-4" style="--d: 0.16s">Vérifier ma commune · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span></a>
+        <p class="reveal">
+          <a
+            href="https://www.google.com/maps/search/?api=1&amp;query=Serrurier%20D%C3%A9pannage%20Rapide%20Lyon%2007%2078%2095%2024%2040"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="Google Maps Search"
+            class="text-[#111] font-medium underline underline-offset-4"
+          >Rechercher la fiche et les avis sur Google Maps ↗</a>
+        </p>
       </div>
     </div>
   </section>
@@ -560,7 +569,7 @@
         <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-400 mb-5">Serrurier · Lyon &amp; périphérie · 24h/24</p>
         <h2 class="reveal max-w-3xl text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Une porte bloquée ? Parlons-en.</h2>
         <p class="reveal mt-6 max-w-2xl leading-relaxed text-gray-300" style="--d: 0.16s">Ouverture de porte, serrure bloquée, porte blindée, volet roulant ou vitrage : appelez Serrurier Dépannage Rapide, disponible 24h/24 et 7j/7.</p>
-        <a href="tel:+33778952440" data-phone class="reveal mt-7 inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-[#111] font-medium transition-colors hover:bg-gray-200" style="--d: 0.2s">
+        <a href="tel:+33778952440" data-phone data-analytics-event="Phone Call" class="reveal mt-7 inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-[#111] font-medium transition-colors hover:bg-gray-200" style="--d: 0.2s">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg>
           <span data-phone-action data-phone-fallback="Demander un devis">Appeler pour un devis</span>
         </a>
@@ -586,14 +595,24 @@
     </div>
     <div class="max-w-7xl mx-auto mt-16 pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between gap-3 text-xs text-gray-400">
       <span>Serrurier Dépannage Rapide · Lyon &amp; périphérie</span>
-      <a href="tel:+33778952440" data-phone class="text-gray-300 hover:text-white transition-colors"><span data-phone-text>07 78 95 24 40</span> · Disponible 24h/24, 7j/7</a>
+      <div class="flex flex-wrap gap-4">
+        <button id="analytics-settings" type="button" class="underline underline-offset-4 hover:text-white">Paramètres de statistiques</button>
+        <a href="tel:+33778952440" data-phone data-analytics-event="Phone Call" class="text-gray-300 hover:text-white transition-colors"><span data-phone-text>07 78 95 24 40</span> · Disponible 24h/24, 7j/7</a>
+      </div>
     </div>
   </section>
-  <a href="#contact" data-phone class="mobile-contact-cta" aria-label="Demander un devis au serrurier">
+  <a href="#contact" data-phone data-analytics-event="Phone Call" class="mobile-contact-cta" aria-label="Demander un devis au serrurier">
     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg>
     <span data-phone-action data-phone-fallback="Demander un devis">Appeler le serrurier</span>
     <span aria-hidden="true">↗</span>
   </a>
+  <aside id="analytics-consent" class="analytics-consent" aria-label="Choix de mesure d’audience">
+    <p>La mesure d’audience via Plausible est facultative. Autorisez-vous le suivi des visites et des actions sur ce site ? Vous pourrez modifier ce choix dans le pied de page.</p>
+    <div class="flex flex-wrap gap-2">
+      <button id="analytics-accept" type="button">Autoriser</button>
+      <button id="analytics-decline" type="button">Continuer sans accepter</button>
+    </div>
+  </aside>
   </main>
   </div>
 </body>

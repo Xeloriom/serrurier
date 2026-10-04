@@ -6,7 +6,14 @@
 const SITE = {
   phone: '+33778952440',
   phoneDisplay: '07 78 95 24 40',
+  analyticsDomain: 'xn--serrurierdpannagerapide-kcc.fr',
 };
+
+let analyticsAllowed = false;
+
+function trackAnalytics(eventName) {
+  if (analyticsAllowed && window.plausible) window.plausible(eventName);
+}
 
 const CHAPTERS = [
   { name: "Dépannage d'urgence", image: 'assets/locksmith-work.jpg' },
@@ -210,7 +217,10 @@ document.addEventListener('alpine:init', () => {
 
 function bindPhone() {
   document.querySelectorAll('[data-phone]').forEach((el) => {
-    if (SITE.phone) el.setAttribute('href', `tel:${SITE.phone}`);
+    if (SITE.phone) {
+      el.setAttribute('href', `tel:${SITE.phone}`);
+      el.dataset.analyticsEvent ||= 'Phone Call';
+    }
     else el.setAttribute('href', '#contact');
   });
   if (!SITE.phone) {
@@ -309,7 +319,67 @@ function setupQuoteForm() {
       `Commune : ${result.data.city}`,
       `Besoin : ${result.data.message}`,
     ].join('\n');
+    trackAnalytics('WhatsApp Quote Request');
     window.location.assign(`https://wa.me/${SITE.phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`);
+  });
+}
+
+function setupAnalyticsConsent() {
+  const notice = document.getElementById('analytics-consent');
+  const accept = document.getElementById('analytics-accept');
+  const decline = document.getElementById('analytics-decline');
+  const settings = document.getElementById('analytics-settings');
+  if (!notice || !accept || !decline || !settings) return;
+
+  const loadAnalytics = () => {
+    if (window.plausible) return;
+
+    window.plausible = function (...args) {
+      (window.plausible.q = window.plausible.q || []).push(args);
+    };
+    const script = document.createElement('script');
+    script.defer = true;
+    script.dataset.domain = SITE.analyticsDomain;
+    script.src = 'https://plausible.io/js/script.js';
+    script.onerror = () => console.error('Impossible de charger Plausible : les statistiques ne sont pas disponibles.');
+    document.head.appendChild(script);
+  };
+
+  let choice = null;
+  try {
+    choice = localStorage.getItem('analytics-consent');
+  } catch (error) {
+    console.warn('Le choix de mesure d’audience ne peut pas être mémorisé dans ce navigateur.', error);
+  }
+
+  if (choice === 'accepted') {
+    analyticsAllowed = true;
+    loadAnalytics();
+  }
+  if (choice === 'accepted' || choice === 'declined') notice.hidden = true;
+
+  const saveChoice = (value) => {
+    analyticsAllowed = value === 'accepted';
+    try {
+      localStorage.setItem('analytics-consent', value);
+    } catch (error) {
+      console.warn('Le choix de mesure d’audience ne peut pas être mémorisé dans ce navigateur.', error);
+    }
+    notice.hidden = true;
+    if (value === 'accepted') loadAnalytics();
+  };
+
+  accept.addEventListener('click', () => saveChoice('accepted'));
+  decline.addEventListener('click', () => saveChoice('declined'));
+  settings.addEventListener('click', () => {
+    notice.hidden = false;
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const link = target.closest('[data-analytics-event]');
+    if (link) trackAnalytics(link.dataset.analyticsEvent);
   });
 }
 
@@ -452,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupMobileContactCta();
   setupInterventionMap();
   setupQuoteForm();
+  setupAnalyticsConsent();
   setupHeroStoryImages();
   setupHeroParallax();
 });
