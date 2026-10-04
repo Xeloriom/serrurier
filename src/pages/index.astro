@@ -177,7 +177,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
           <li><a href="#explore" @click.prevent="go('#explore')" class="hover:text-black hover:underline">Services</a></li>
           <li><a href="#prestations" @click.prevent="go('#prestations')" class="hover:text-black hover:underline">Prestations</a></li>
           <li><a href="#zone" @click.prevent="go('#zone')" class="hover:text-black hover:underline">Zone d'intervention</a></li>
-          <li><a href="prix-serrurier-lyon/" class="hover:text-black hover:underline">Prix &amp; devis</a></li>
+          <li><a href="prix-serrurier/" class="hover:text-black hover:underline">Prix &amp; devis</a></li>
           <li><a href="#faq" @click.prevent="go('#faq')" class="hover:text-black hover:underline">FAQ</a></li>
           <li><a href="#contact" @click.prevent="go('#contact')" class="border border-black rounded-full px-4 py-2 hover:bg-black hover:text-white transition-colors">Contact</a></li>
         </ul>
@@ -223,7 +223,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
         <ul class="space-y-6 text-sm font-mono tracking-[0.12em] uppercase">
           <li><a href="#explore" @click.prevent="go('#explore')" class="text-gray-800 hover:text-black hover:underline">Services</a></li>
           <li><a href="#zone" @click.prevent="go('#zone')" class="text-gray-800 hover:text-black hover:underline">Zone d'intervention</a></li>
-          <li><a href="prix-serrurier-lyon/" class="text-gray-800 hover:text-black hover:underline">Prix &amp; devis</a></li>
+          <li><a href="prix-serrurier/" class="text-gray-800 hover:text-black hover:underline">Prix &amp; devis</a></li>
           <li><a href="#faq" @click.prevent="go('#faq')" class="text-gray-800 hover:text-black hover:underline">Questions fréquentes</a></li>
           <li><a href="#contact" @click.prevent="go('#contact')" class="text-gray-800 hover:text-black hover:underline">Contact</a></li>
         </ul>
@@ -315,22 +315,22 @@ import SecurityMeta from '../components/SecurityMeta.astro';
 
     <nav aria-label="Accès rapide à nos services" class="service-shortcuts" data-reveal-stagger data-delay="0.12" data-step="0.06">
       <div class="reveal">
-        <a href="ouverture-porte-lyon/" class="service-shortcut">
+        <a href="ouverture-porte/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-door-open" /></svg></span><span>Ouverture de porte</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
-        <a href="serrure-porte-blindee-lyon/" class="service-shortcut">
+        <a href="serrure-porte-blindee/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield" /></svg></span><span>Serrures &amp; sécurité</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
-        <a href="volet-roulant-lyon/" class="service-shortcut">
+        <a href="volet-roulant/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-wrench" /></svg></span><span>Volets roulants</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div>
-        <a href="prix-serrurier-lyon/" class="service-shortcut">
+        <a href="prix-serrurier/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-key" /></svg></span><span>Prix &amp; devis</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
@@ -435,31 +435,31 @@ import SecurityMeta from '../components/SecurityMeta.astro';
         <article class="reveal service-card border-b md:border-r border-gray-200 p-7 md:p-9">
           <img class="service-illustration" src="assets/locksmith-work.webp" alt="Serrurier intervenant sur une porte" loading="lazy" decoding="async" width="1280" height="961" />
           <span class="font-mono text-xs text-gray-400">01 / ACCÈS</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="ouverture-porte-lyon/" class="underline underline-offset-4">Ouverture de porte</a></h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="ouverture-porte/" class="underline underline-offset-4">Ouverture de porte</a></h3>
           <p class="leading-relaxed text-gray-600">Porte claquée, clé perdue ou serrure bloquée ? Décrivez les symptômes pour identifier la solution adaptée à votre porte et à votre situation.</p>
         </article>
         <article class="reveal service-card border-b xl:border-r border-gray-200 p-7 md:p-9">
           <img class="service-illustration" src="assets/security-door.webp" alt="Serrure multipoints sur une porte sécurisée" loading="lazy" decoding="async" width="1800" height="1296" />
           <span class="font-mono text-xs text-gray-400">02 / SÉCURITÉ</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee-lyon/" class="underline underline-offset-4">Dépannage et pose de serrure</a></h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee/" class="underline underline-offset-4">Dépannage et pose de serrure</a></h3>
           <p class="leading-relaxed text-gray-600">Remplacement d'un cylindre ou d'une serrure, installation et conseils pour sécuriser une porte après une perte de clés ou une effraction.</p>
         </article>
         <article class="reveal service-card border-b md:border-r xl:border-r-0 border-gray-200 p-7 md:p-9">
           <img class="service-illustration" src="assets/door-installation.webp" alt="Artisan réparant une porte et sa serrure" loading="lazy" decoding="async" width="1600" height="1201" />
           <span class="font-mono text-xs text-gray-400">03 / RÉPARATION</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee-lyon/" class="underline underline-offset-4">Réparation et remplacement de serrure</a></h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="serrure-porte-blindee/" class="underline underline-offset-4">Réparation et remplacement de serrure</a></h3>
           <p class="leading-relaxed text-gray-600">Serrure usée, endommagée ou bloquée : faites vérifier le mécanisme et les options de réparation ou de remplacement.</p>
         </article>
         <article class="reveal service-card border-b md:border-r xl:border-b-0 border-gray-200 p-7 md:p-9">
           <img class="service-illustration" src="assets/rolling-shutter.webp" alt="Volets roulants installés sur une maison" loading="lazy" decoding="async" width="1024" height="778" />
           <span class="font-mono text-xs text-gray-400">04 / VOLETS</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="volet-roulant-lyon/" class="underline underline-offset-4">Réparation de volets roulants</a></h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="volet-roulant/" class="underline underline-offset-4">Réparation de volets roulants</a></h3>
           <p class="leading-relaxed text-gray-600">Un volet roulant bloqué ou endommagé ? Demandez un dépannage pour retrouver un fonctionnement normal et sécuriser vos ouvertures.</p>
         </article>
         <article class="reveal service-card border-b md:border-b-0 md:border-r border-gray-200 p-7 md:p-9">
           <img class="service-illustration" src="assets/glazing.webp" alt="Vitrier ajustant un vitrage dans une fenêtre" loading="lazy" decoding="async" width="1200" height="800" />
           <span class="font-mono text-xs text-gray-400">05 / VITRERIE</span>
-          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="vitrerie-lyon/" class="underline underline-offset-4">Vitrerie</a></h3>
+          <h3 class="mt-8 mb-4 text-2xl font-medium"><a href="vitrerie/" class="underline underline-offset-4">Vitrerie</a></h3>
           <p class="leading-relaxed text-gray-600">Vitrage cassé ou endommagé : contactez le serrurier-vitrier pour faire sécuriser et remplacer le vitrage selon votre situation.</p>
         </article>
         <article class="reveal bg-[#f4f3ef] p-7 md:p-9 flex flex-col justify-between min-h-64">
@@ -519,8 +519,8 @@ import SecurityMeta from '../components/SecurityMeta.astro';
       <div class="text-gray-600 leading-relaxed space-y-5">
         <p class="reveal">La carte indique des communes citées à titre de repère ; appelez pour confirmer si votre adresse est desservie.</p>
         <p class="reveal" style="--d: 0.08s">Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu et Pont-de-Chéruy figurent parmi les communes citées. Vérifiez votre adresse et le délai par téléphone.</p>
-        <p class="reveal"><a href="zone-intervention-serrurier-lyon/" class="font-medium underline underline-offset-4">Voir les communes et vérifier ma zone d'intervention ↗</a></p>
-        <p class="reveal"><a href="prix-serrurier-lyon/" class="font-medium underline underline-offset-4">Consulter les repères tarifaires et les questions à poser avant un devis ↗</a></p>
+        <p class="reveal"><a href="zone-intervention-serrurier/" class="font-medium underline underline-offset-4">Voir les communes et vérifier ma zone d'intervention ↗</a></p>
+        <p class="reveal"><a href="prix-serrurier/" class="font-medium underline underline-offset-4">Consulter les repères tarifaires et les questions à poser avant un devis ↗</a></p>
         <a href="tel:+33778952440" data-phone class="reveal inline-flex items-center gap-3 text-[#111] font-medium underline underline-offset-4" style="--d: 0.16s">Vérifier ma commune · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span></a>
         <p class="reveal">
           <a

@@ -5,12 +5,12 @@ const inBase = (path) => `${basePath}${path}`;
 
 const pages = [
   { path: '/', title: /Serrurier dépannage/ },
-  { path: '/ouverture-porte-lyon/', title: /ouverture de porte/i },
-  { path: '/serrure-porte-blindee-lyon/', title: /serrure et porte blindée/i },
-  { path: '/volet-roulant-lyon/', title: /volet roulant/i },
-  { path: '/vitrerie-lyon/', title: /vitrerie/i },
-  { path: '/zone-intervention-serrurier-lyon/', title: /zone d'intervention/i },
-  { path: '/prix-serrurier-lyon/', title: /prix serrurier/i },
+  { path: '/ouverture-porte/', title: /ouverture de porte/i },
+  { path: '/serrure-porte-blindee/', title: /serrure et porte blindée/i },
+  { path: '/volet-roulant/', title: /volet roulant/i },
+  { path: '/vitrerie/', title: /vitrerie/i },
+  { path: '/zone-intervention-serrurier/', title: /zone d'intervention/i },
+  { path: '/prix-serrurier/', title: /prix serrurier/i },
 ];
 
 for (const { path, title } of pages) {
@@ -99,7 +99,7 @@ test('homepage menu and quote form work without browser errors', async ({ page }
 });
 
 test('pricing guide cites dated competitor prices and separates them from our quote', async ({ page }) => {
-  await page.goto(inBase('/prix-serrurier-lyon/'));
+  await page.goto(inBase('/prix-serrurier/'));
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Prix d’un serrurier dans votre secteur : comparer un devis',
@@ -108,8 +108,8 @@ test('pricing guide cites dated competitor prices and separates them from our qu
   await expect(page.locator('main')).toContainText('4 octobre 2026');
   await expect(page.locator('main')).toContainText('110 à 140 € TTC');
   await expect(page.locator('main')).toContainText('65 € HT + 65 € HT/heure');
-  await expect(page.locator('main').getByRole('link', { name: 'Voir la source tarifaire ↗' }))
-    .toHaveAttribute('href', 'https://www.mesdepanneurs.fr/serrurier/lyon');
+  await expect(page.locator('main').getByRole('link', { name: /Voir les estimations de prix Depanneo/ }))
+    .toHaveAttribute('href', 'https://www.depanneo.com/prix/serrurier/');
   await expect(page.locator('main').getByRole('link', { name: /Voir le tarif de changement de serrure/ }))
     .toHaveAttribute('href', 'https://hop-serrurier.fr/tarifs-changement-de-serrure/');
 });

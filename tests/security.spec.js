@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test';
 
 const paths = [
   '/',
-  '/ouverture-porte-lyon/',
-  '/serrure-porte-blindee-lyon/',
-  '/volet-roulant-lyon/',
-  '/vitrerie-lyon/',
-  '/zone-intervention-serrurier-lyon/',
-  '/prix-serrurier-lyon/',
+  '/ouverture-porte/',
+  '/serrure-porte-blindee/',
+  '/volet-roulant/',
+  '/vitrerie/',
+  '/zone-intervention-serrurier/',
+  '/prix-serrurier/',
 ];
 
 test('all pages enforce CSP and block inline scripts', async ({ page }) => {

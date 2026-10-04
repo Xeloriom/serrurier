@@ -15,12 +15,12 @@
 ## Pages canoniques
 
 - [Accueil](https://xn--serrurierdpannagerapide-kcc.fr/): présentation et contact.
-- [Ouverture de porte](https://xn--serrurierdpannagerapide-kcc.fr/ouverture-porte-lyon/): porte claquée, clé perdue ou serrure bloquée.
-- [Serrures et portes blindées](https://xn--serrurierdpannagerapide-kcc.fr/serrure-porte-blindee-lyon/): réparation, remplacement et installation.
-- [Volets roulants](https://xn--serrurierdpannagerapide-kcc.fr/volet-roulant-lyon/): pannes et demandes de dépannage.
-- [Vitrerie](https://xn--serrurierdpannagerapide-kcc.fr/vitrerie-lyon/): vitrage endommagé et précautions utiles.
-- [Zone d'intervention](https://xn--serrurierdpannagerapide-kcc.fr/zone-intervention-serrurier-lyon/): secteurs annoncés et vérification de l'adresse.
-- [Prix et devis serrurier à votre secteur](https://xn--serrurierdpannagerapide-kcc.fr/prix-serrurier-lyon/): exemples de prix publics datés, clairement distincts des tarifs de l'entreprise, et conseils pour comparer un devis.
+- [Ouverture de porte](https://xn--serrurierdpannagerapide-kcc.fr/ouverture-porte/): porte claquée, clé perdue ou serrure bloquée.
+- [Serrures et portes blindées](https://xn--serrurierdpannagerapide-kcc.fr/serrure-porte-blindee/): réparation, remplacement et installation.
+- [Volets roulants](https://xn--serrurierdpannagerapide-kcc.fr/volet-roulant/): pannes et demandes de dépannage.
+- [Vitrerie](https://xn--serrurierdpannagerapide-kcc.fr/vitrerie/): vitrage endommagé et précautions utiles.
+- [Zone d'intervention](https://xn--serrurierdpannagerapide-kcc.fr/zone-intervention-serrurier/): secteurs annoncés et vérification de l'adresse.
+- [Prix et devis serrurier à votre secteur](https://xn--serrurierdpannagerapide-kcc.fr/prix-serrurier/): exemples de prix publics datés, clairement distincts des tarifs de l'entreprise, et conseils pour comparer un devis.
 - [Plan du site XML](https://xn--serrurierdpannagerapide-kcc.fr/sitemap.xml)
 
 ## Notes de fiabilité
