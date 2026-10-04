@@ -12,6 +12,7 @@
     "check": "npm run lint && npm run test:e2e && python3 scripts/check-seo.py"
   },
   "devDependencies": {
+    "@alpinejs/csp": "3.17.4",
     "@emnapi/core": "^1.11.3",
     "@emnapi/runtime": "^1.11.3",
     "@eslint/js": "^10.0.1",

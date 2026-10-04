@@ -34,6 +34,12 @@ npm run check
 
 GitHub Actions exécute ces contrôles sur chaque pull request vers `main` et avant chaque déploiement. Un contrôle en échec bloque la publication.
 
+## Sécurité
+
+- Une politique CSP est incluse sur toutes les pages ; elle bloque les scripts intégrés et `unsafe-eval`, et limite les scripts externes aux ressources utilisées par la carte et les statistiques.
+- Alpine utilise sa version compatible CSP. Les scripts GitHub Actions sont épinglés sur des SHA, avec des mises à jour hebdomadaires Dependabot.
+- GitHub Pages ne permet pas de configurer les en-têtes HTTP personnalisés. La CSP en balise HTML ne peut donc pas définir `frame-ancestors` ; une protection complète contre l’intégration du site dans une iframe nécessite un hébergeur ou proxy permettant ces en-têtes.
+
 ## Publication sur GitHub Pages
 
 Le workflow GitHub Actions construit le site avec Astro puis publie uniquement le dossier `dist/` sur GitHub Pages.

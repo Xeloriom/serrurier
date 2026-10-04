@@ -22,6 +22,10 @@ for (const file of [
 await cp(resolve(root, 'assets'), resolve(publicDir, 'assets'), { recursive: true });
 const vendorDir = resolve(publicDir, 'vendor');
 await mkdir(vendorDir, { recursive: true });
-for (const file of ['alpine.min.js', 'lenis.css', 'lenis.min.js']) {
+for (const file of ['lenis.css', 'lenis.min.js']) {
   await cp(resolve(root, 'vendor', file), resolve(vendorDir, file));
 }
+await cp(
+  resolve(root, 'node_modules/@alpinejs/csp/dist/cdn.min.js'),
+  resolve(vendorDir, 'alpine.min.js'),
+);
