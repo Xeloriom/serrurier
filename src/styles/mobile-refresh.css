@@ -238,7 +238,9 @@
   }
 
   body.assistant-open .faq-assistant-panel {
-    height: calc(100dvh - 5.25rem - env(safe-area-inset-bottom));
+    height: calc(
+      100dvh - 10rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
   }
 
   #mobile-navigation {
