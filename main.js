@@ -455,6 +455,7 @@ function setupFaqAssistant() {
 
   const setOpen = (open) => {
     panel.hidden = !open;
+    document.body.classList.toggle('assistant-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     if (open) input.focus();
     else toggle.focus();

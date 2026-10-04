@@ -212,9 +212,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
       >
         <nav aria-label="Navigation mobile">
         <ul class="space-y-6 text-sm font-mono tracking-[0.12em] uppercase">
-          <li><a href="#top" @click.prevent="go('#top')" class="text-gray-800 hover:text-black hover:underline">Accueil</a></li>
           <li><a href="#explore" @click.prevent="go('#explore')" class="text-gray-800 hover:text-black hover:underline">Services</a></li>
-          <li><a href="#prestations" @click.prevent="go('#prestations')" class="text-gray-800 hover:text-black hover:underline">Prestations</a></li>
           <li><a href="#zone" @click.prevent="go('#zone')" class="text-gray-800 hover:text-black hover:underline">Zone d'intervention</a></li>
           <li><a href="prix-serrurier-lyon/" class="text-gray-800 hover:text-black hover:underline">Prix &amp; devis</a></li>
           <li><a href="#faq" @click.prevent="go('#faq')" class="text-gray-800 hover:text-black hover:underline">Questions fréquentes</a></li>
@@ -254,20 +252,16 @@ import SecurityMeta from '../components/SecurityMeta.astro';
           <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>02</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
           <h2 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">UNE PORTE<br />BLOQUÉE ?</h2>
           <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
-            Ouverture de porte, dépannage de serrure, porte blindée et volets roulants : décrivez votre besoin pour trouver la bonne solution.
+            Porte claquée ou verrouillée ? Précisez si une clé est disponible et si la serrure a déjà été tournée.
           </p>
-          <a href="#details" @click.prevent="go('#details')" class="inline-flex items-center gap-3 text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-black">Découvrir les prestations <span aria-hidden="true">↗</span></a>
         </article>
 
         <article id="hero-step-3" class="hero-copy hero-step reveal" data-hero-image="2" style="--d: 0.08s">
           <div class="flex items-center gap-4 mb-8 text-xs font-mono"><span>03</span><span class="block w-16 h-[1.5px] bg-black/20"></span></div>
           <h2 class="text-[clamp(2.3rem,10vw,3.5rem)] md:text-[4rem] font-normal tracking-tight leading-[1] mb-6">LYON &amp;<br />ALENTOURS</h2>
           <p class="text-[13px] md:text-[14px] text-gray-700 w-full max-w-[360px] leading-[1.6] mb-8">
-            Disponible 24h/24 et 7j/7 à Lyon et dans les communes voisines. Appelez pour vérifier la disponibilité dans votre secteur.
+            Le déplacement se confirme au téléphone selon votre commune et les disponibilités du moment.
           </p>
-          <a href="#contact" data-phone class="inline-flex items-center gap-3 text-sm font-medium text-gray-700 underline underline-offset-4 hover:text-black">
-            Appeler · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span>
-          </a>
         </article>
       </div>
 
@@ -307,7 +301,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
             class="reveal max-w-[1000px] text-[2.2rem] md:text-[3.5rem] lg:text-[4.2rem] leading-[1.1] font-medium tracking-tight text-[#111]"
             style="--y: 40px; --dur: 1s; --ease: cubic-bezier(0.16, 1, 0.3, 1)"
     >
-      Serrurier à Lyon et en périphérie : urgence, installation et réparation, 24h/24 et 7j/7.
+      Quel est votre besoin ?
     </h2>
 
     <nav aria-label="Accès rapide à nos services" class="service-shortcuts" data-reveal-stagger data-delay="0.12" data-step="0.06">
@@ -318,22 +312,12 @@ import SecurityMeta from '../components/SecurityMeta.astro';
       </div>
       <div class="reveal">
         <a href="serrure-porte-blindee-lyon/" class="service-shortcut">
-          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-key" /></svg></span><span>Serrures</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-      <div class="reveal">
-        <a href="serrure-porte-blindee-lyon/" class="service-shortcut">
-          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield" /></svg></span><span>Porte blindée</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
+          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-shield" /></svg></span><span>Serrures &amp; sécurité</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div class="reveal">
         <a href="volet-roulant-lyon/" class="service-shortcut">
           <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-wrench" /></svg></span><span>Volets roulants</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-      <div class="reveal">
-        <a href="#contact" @click.prevent="go('#contact')" class="service-shortcut service-shortcut-cta">
-          <span class="service-shortcut-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg></span><span>Demander un devis</span><span class="service-shortcut-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       <div>
@@ -357,17 +341,17 @@ import SecurityMeta from '../components/SecurityMeta.astro';
   <section id="prestations" class="relative w-full bg-[#0a0a0a] text-white flex flex-col z-30">
     <div class="relative z-10 flex flex-col xl:flex-row xl:items-end justify-between gap-8 px-6 md:px-16 pt-20 md:pt-28 mb-12">
       <h2 class="max-w-[1000px] text-[1.8rem] md:text-[3rem] lg:text-[3.8rem] xl:text-[4rem] leading-[1.15] font-medium tracking-tight text-white">
-        Un serrurier rapidement à Lyon, 24h/24.
+        Nos interventions, en un aperçu.
       </h2>
 
       <div class="shrink-0">
         <p class="text-[9px] md:text-[10px] font-mono tracking-widest text-gray-400 uppercase mb-6 leading-relaxed">
-              LYON &amp; PÉRIPHÉRIE<br />DISPONIBLE 24H/24 · 7J/7
+              SERRURERIE<br />PARTICULIERS &amp; PROFESSIONNELS
         </p>
         <div class="flex flex-wrap gap-3">
-          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Urgences</span>
-          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">24h/24 · 7j/7</span>
-          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Particuliers &amp; pros</span>
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Accès</span>
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Sécurité</span>
+          <span class="px-5 py-2 rounded-full border border-gray-600 text-[9px] font-mono tracking-widest uppercase text-gray-300 transition-all duration-300 hover:bg-white hover:text-black hover:border-white cursor-default">Réparation</span>
         </div>
       </div>
     </div>
@@ -424,7 +408,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
 
     <div class="relative z-10 h-[1px] w-full bg-gray-800"></div>
     <p class="relative z-10 px-8 py-8 text-[10px] font-mono tracking-widest text-gray-500 uppercase bg-[#0a0a0a] leading-relaxed">
-    Disponible 24h/24 · 7j/7 — Lyon, périphérie, Nord-Isère et Plaine de l'Ain
+    Sélectionnez une prestation pour en voir l’illustration.
     </p>
   </section>
 
@@ -434,9 +418,7 @@ import SecurityMeta from '../components/SecurityMeta.astro';
       <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-24 mb-14 md:mb-20">
         <h2 class="reveal text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium">Une solution adaptée à chaque porte.</h2>
         <p class="reveal text-base md:text-lg leading-relaxed text-gray-600 max-w-2xl" style="--d: 0.12s">
-          Une porte qui ne s'ouvre plus, une serrure usée ou une vitrine endommagée : chaque situation est différente.
-          Serrurier Dépannage Rapide vous accompagne à Lyon et dans les communes voisines pour vos urgences, le remplacement
-          et l'installation de serrures, les portes blindées, les volets roulants et la vitrerie. Appelez pour décrire votre besoin.
+          De l’accès au logement au vitrage endommagé, consultez les prestations et les informations utiles avant votre appel.
         </p>
       </div>
 
@@ -526,8 +508,8 @@ import SecurityMeta from '../components/SecurityMeta.astro';
         <p class="mt-3 text-xs leading-relaxed text-gray-500">Repères indicatifs des communes citées, sans délimiter un rayon garanti. Appelez pour confirmer la prise en charge de votre adresse.</p>
       </div>
       <div class="text-gray-600 leading-relaxed space-y-5">
-        <p class="reveal">Les déplacements couvrent Lyon et sa périphérie, l'Est lyonnais, le Nord-Isère ainsi que la Plaine de l'Ain et le Bugey. Le serrurier intervient auprès des particuliers et des professionnels.</p>
-        <p class="reveal" style="--d: 0.08s">Parmi les communes desservies : Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Appelez pour confirmer la prise en charge de votre adresse et le délai disponible.</p>
+        <p class="reveal">Le secteur mentionné couvre Lyon, l’Est lyonnais, le Nord-Isère, la Plaine de l’Ain et le Bugey. La carte donne des repères, sans définir un rayon garanti.</p>
+        <p class="reveal" style="--d: 0.08s">Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu et Pont-de-Chéruy figurent parmi les communes citées. Vérifiez votre adresse et le délai par téléphone.</p>
         <p class="reveal"><a href="zone-intervention-serrurier-lyon/" class="font-medium underline underline-offset-4">Voir les communes et vérifier ma zone d'intervention ↗</a></p>
         <p class="reveal"><a href="prix-serrurier-lyon/" class="font-medium underline underline-offset-4">Consulter les repères tarifaires et les questions à poser avant un devis ↗</a></p>
         <a href="tel:+33778952440" data-phone class="reveal inline-flex items-center gap-3 text-[#111] font-medium underline underline-offset-4" style="--d: 0.16s">Vérifier ma commune · <span data-phone-text>07 78 95 24 40</span> <span aria-hidden="true">↗</span></a>
@@ -585,8 +567,8 @@ import SecurityMeta from '../components/SecurityMeta.astro';
     <div class="max-w-7xl mx-auto grid lg:grid-cols-[1fr_0.85fr] gap-10 lg:gap-16 items-start">
       <div>
         <p class="reveal text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-gray-400 mb-5">Serrurier · Lyon &amp; périphérie · 24h/24</p>
-        <h2 class="reveal max-w-3xl text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Une porte bloquée ? Parlons-en.</h2>
-        <p class="reveal mt-6 max-w-2xl leading-relaxed text-gray-300" style="--d: 0.16s">Ouverture de porte, serrure bloquée, porte blindée, volet roulant ou vitrage : appelez Serrurier Dépannage Rapide, disponible 24h/24 et 7j/7.</p>
+        <h2 class="reveal max-w-3xl text-4xl md:text-6xl leading-[1.05] tracking-tight font-medium" style="--d: 0.08s">Parlons de votre demande.</h2>
+        <p class="reveal mt-6 max-w-2xl leading-relaxed text-gray-300" style="--d: 0.16s">Indiquez votre adresse et ce qui s'est passé. Vous pourrez vérifier la disponibilité, le déplacement et le devis avant de décider.</p>
         <a href="tel:+33778952440" data-phone data-analytics-event="Phone Call" class="reveal mt-7 inline-flex items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-[#111] font-medium transition-colors hover:bg-gray-200" style="--d: 0.2s">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-phone" /></svg>
           <span data-phone-action data-phone-fallback="Demander un devis">Appeler pour un devis</span>
