@@ -4,13 +4,13 @@ const basePath = '/serrurier';
 const inBase = (path) => `${basePath}${path}`;
 
 const pages = [
-  { path: '/', title: /Serrurier à Lyon/ },
+  { path: '/', title: /Serrurier dépannage/ },
   { path: '/ouverture-porte-lyon/', title: /ouverture de porte/i },
   { path: '/serrure-porte-blindee-lyon/', title: /serrure et porte blindée/i },
   { path: '/volet-roulant-lyon/', title: /volet roulant/i },
   { path: '/vitrerie-lyon/', title: /vitrerie/i },
-  { path: '/zone-intervention-serrurier-lyon/', title: /zone d'intervention serrurier/i },
-  { path: '/prix-serrurier-lyon/', title: /prix serrurier à Lyon/i },
+  { path: '/zone-intervention-serrurier-lyon/', title: /zone d'intervention/i },
+  { path: '/prix-serrurier-lyon/', title: /prix serrurier/i },
 ];
 
 for (const { path, title } of pages) {
@@ -102,13 +102,13 @@ test('pricing guide cites dated competitor prices and separates them from our qu
   await page.goto(inBase('/prix-serrurier-lyon/'));
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Prix d’un serrurier à Lyon : comparer un devis',
+    'Prix d’un serrurier dans votre secteur : comparer un devis',
   );
   await expect(page.locator('main')).toContainText('ne sont pas les tarifs de Serrurier Dépannage Rapide');
   await expect(page.locator('main')).toContainText('4 octobre 2026');
   await expect(page.locator('main')).toContainText('110 à 140 € TTC');
   await expect(page.locator('main')).toContainText('65 € HT + 65 € HT/heure');
-  await expect(page.locator('main').getByRole('link', { name: 'Voir la page serrurier à Lyon ↗' }))
+  await expect(page.locator('main').getByRole('link', { name: 'Voir la source tarifaire ↗' }))
     .toHaveAttribute('href', 'https://www.mesdepanneurs.fr/serrurier/lyon');
   await expect(page.locator('main').getByRole('link', { name: /Voir le tarif de changement de serrure/ }))
     .toHaveAttribute('href', 'https://hop-serrurier.fr/tarifs-changement-de-serrure/');
@@ -218,12 +218,12 @@ test('FAQ assistant handles every supported topic and uncertain questions safely
       answer: 'Le service est annoncé 24h/24 et 7j/7',
     },
     {
-      question: 'Vous intervenez à Lyon ce soir ?',
+      question: 'Vous intervenez dans ma commune ce soir ?',
       answer: 'Le service est annoncé 24h/24 et 7j/7',
     },
     {
       question: 'Vous intervenez dans ma commune ?',
-      answer: 'Le site cite Lyon, Meyzieu, Genas',
+      answer: 'Le site cite Meyzieu, Genas',
     },
     {
       question: 'Vous venez à Villeurbanne ?',
@@ -283,7 +283,7 @@ test('FAQ assistant suggestions, close button, and mobile positioning work', asy
 
   for (const [label, answer] of [
     ['Porte claquée', 'Évitez de forcer la porte ou la serrure'],
-    ['Ma commune', 'Le site cite Lyon, Meyzieu, Genas'],
+    ['Ma commune', 'Le site cite Meyzieu, Genas'],
     ['Disponibilité', 'Le service est annoncé 24h/24 et 7j/7'],
     ['Vos services', 'Les prestations présentées sont le dépannage d’urgence'],
   ]) {

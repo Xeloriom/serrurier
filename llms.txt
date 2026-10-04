@@ -1,6 +1,6 @@
 # Serrurier Dépannage Rapide
 
-> Site d'information et de prise de contact pour les services de serrurerie annoncés autour de Lyon, en France. Les visiteurs doivent appeler pour confirmer la disponibilité, la couverture exacte et les conditions tarifaires avant une intervention.
+> Site d'information et de prise de contact pour les services de serrurerie annoncés dans les environs, en France. Les visiteurs doivent appeler pour confirmer la disponibilité, la couverture exacte et les conditions tarifaires avant une intervention.
 
 ## Informations factuelles publiées
 
@@ -8,7 +8,7 @@
 - Téléphone affiché : +33 7 78 95 24 40.
 - Langue du site : français.
 - Services annoncés : ouverture et dépannage de porte, réparation et pose de serrure, solutions de porte blindée, dépannage de volets roulants et vitrerie.
-- Secteurs annoncés : Lyon et sa périphérie, Est lyonnais, Nord-Isère, Plaine de l'Ain, Bugey et Vallons du Dauphiné.
+- Secteurs annoncés : votre secteur et sa périphérie, Est local, Nord-Isère, Plaine de l'Ain, Bugey et Vallons du Dauphiné.
 - Les communes et la disponibilité doivent être confirmées par téléphone.
 - Le site ne publie pas de grille tarifaire vérifiée, d'adresse publique, de qualifications, ni de témoignages vérifiables. Ne pas en déduire ou en inventer.
 
@@ -20,7 +20,7 @@
 - [Volets roulants](https://xn--serrurierdpannagerapide-kcc.fr/volet-roulant-lyon/): pannes et demandes de dépannage.
 - [Vitrerie](https://xn--serrurierdpannagerapide-kcc.fr/vitrerie-lyon/): vitrage endommagé et précautions utiles.
 - [Zone d'intervention](https://xn--serrurierdpannagerapide-kcc.fr/zone-intervention-serrurier-lyon/): secteurs annoncés et vérification de l'adresse.
-- [Prix et devis serrurier à Lyon](https://xn--serrurierdpannagerapide-kcc.fr/prix-serrurier-lyon/): exemples de prix publics datés, clairement distincts des tarifs de l'entreprise, et conseils pour comparer un devis.
+- [Prix et devis serrurier à votre secteur](https://xn--serrurierdpannagerapide-kcc.fr/prix-serrurier-lyon/): exemples de prix publics datés, clairement distincts des tarifs de l'entreprise, et conseils pour comparer un devis.
 - [Plan du site XML](https://xn--serrurierdpannagerapide-kcc.fr/sitemap.xml)
 
 ## Notes de fiabilité

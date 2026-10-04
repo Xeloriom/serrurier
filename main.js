@@ -260,7 +260,7 @@ function setupInterventionMap() {
     container.replaceChildren();
 
     const locations = [
-      { name: 'Lyon', coordinates: [45.764, 4.8357] },
+      { name: 'votre secteur', coordinates: [45.764, 4.8357] },
       { name: 'Meyzieu', coordinates: [45.7667, 5.0] },
       { name: 'Genas', coordinates: [45.7314, 5.0] },
       { name: 'Jonage', coordinates: [45.7986, 5.045] },
@@ -517,8 +517,8 @@ function setupFaqAssistant() {
     if (matches(/\b(disponib\w*|maintenant|horaires?|nuit|soir|dimanche|week end|weekend|urgence|24 ?h|24 7|ouvert(e|s)? (maintenant|aujourd hui|ce soir)|intervenir (maintenant|aujourd hui|ce soir))\b/)) {
       return 'Le service est annoncé 24h/24 et 7j/7. La disponibilité et le délai dépendent de votre localisation et du dépannage : appelez directement pour les confirmer.';
     }
-    if (matches(/\b(commune|ville|zone|interven|adresse|secteur|deplac|venez|venir|passez|desserv|autour de|lyon|meyzieu|genas|jonage|cremieu|bourgoin|tignieu|pont de cheruy|villeurbanne|vaulx|venissieux|caluire|bron|decines)\b/)) {
-      return 'Le site cite Lyon, Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Cette liste ne garantit pas la prise en charge : appelez pour confirmer votre adresse.';
+    if (matches(/\b(commune|ville|zone|interven|adresse|secteur|deplac|venez|venir|passez|desserv|autour de|votre secteur|meyzieu|genas|jonage|cremieu|bourgoin|tignieu|pont de cheruy|villeurbanne|vaulx|venissieux|caluire|bron|decines)\b/)) {
+      return 'Le site cite Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Cette liste ne garantit pas la prise en charge : appelez pour confirmer votre adresse.';
     }
     if (matches(/\b(services?|prestation\w*|serrur\w*|volet\w*|vitr\w*|blind\w*|install\w*|repar\w*|ouvertures? de porte|ouvrir (une|ma) porte)\b/)) {
       return 'Les prestations présentées sont le dépannage d’urgence, l’ouverture et la réparation de serrure, les portes blindées, les volets roulants et la vitrerie. Pour confirmer qu’une solution convient à votre cas, appelez et décrivez le problème.';
