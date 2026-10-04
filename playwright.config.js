@@ -18,8 +18,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run preview -- --host 127.0.0.1 --port 4173',
-    url: 'http://127.0.0.1:4173',
+    command: 'python3 scripts/serve-pages.py --port 4173',
+    url: 'http://127.0.0.1:4173/serrurier/',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
   },

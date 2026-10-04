@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+const basePath = '/serrurier';
+const inBase = (path) => `${basePath}${path}`;
+
 const pages = [
   { path: '/', title: /Serrurier à Lyon/ },
   { path: '/ouverture-porte-lyon/', title: /ouverture de porte/i },
@@ -19,7 +22,7 @@ for (const { path, title } of pages) {
     });
     page.on('pageerror', (error) => errors.push(error.message));
 
-    const response = await page.goto(path);
+    const response = await page.goto(inBase(path));
     expect(response?.status(), `${path} should return HTTP 200`).toBe(200);
     await expect(page).toHaveTitle(title);
     await expect(page.locator('h1')).toHaveCount(1);
@@ -43,9 +46,9 @@ for (const { path, title } of pages) {
 
 test('crawler discovery files list all canonical public pages', async ({ request }) => {
   const [robots, sitemap, llms] = await Promise.all([
-    request.get('/robots.txt'),
-    request.get('/sitemap.xml'),
-    request.get('/llms.txt'),
+    request.get(inBase('/robots.txt')),
+    request.get(inBase('/sitemap.xml')),
+    request.get(inBase('/llms.txt')),
   ]);
 
   expect(robots.status()).toBe(200);
@@ -65,7 +68,7 @@ test('crawler discovery files list all canonical public pages', async ({ request
 });
 
 test('production CSS is bundled and does not load the Tailwind browser compiler', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(inBase('/'));
   await expect(page.locator('link[rel="stylesheet"][href*="/_astro/"]')).toHaveCount(1);
   await expect(page.locator('script[src*="tailwind-browser"]')).toHaveCount(0);
   await expect.poll(() => page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily))
@@ -80,7 +83,7 @@ test('homepage menu and quote form work without browser errors', async ({ page }
   });
   page.on('pageerror', (error) => errors.push(error.message));
 
-  await page.goto('/');
+  await page.goto(inBase('/'));
 
   const menuButton = page.locator('button[aria-controls="mobile-navigation"]');
   await menuButton.click();
@@ -96,7 +99,7 @@ test('homepage menu and quote form work without browser errors', async ({ page }
 });
 
 test('pricing guide cites dated competitor prices and separates them from our quote', async ({ page }) => {
-  await page.goto('/prix-serrurier-lyon/');
+  await page.goto(inBase('/prix-serrurier-lyon/'));
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Prix d’un serrurier à Lyon : comparer un devis',
@@ -114,7 +117,7 @@ test('pricing guide cites dated competitor prices and separates them from our qu
 test('mobile layout fits narrow screens and updates hero images while scrolling', async ({ page }) => {
   for (const width of [320, 375, 390]) {
     await page.setViewportSize({ width, height: 844 });
-    await page.goto('/');
+    await page.goto(inBase('/'));
     await expect(page.locator('.hero-photo').first()).toBeVisible();
     await page.waitForFunction(() => document.querySelector('.hero-photo')?.naturalWidth > 0);
 
@@ -137,7 +140,7 @@ test('mobile layout fits narrow screens and updates hero images while scrolling'
 });
 
 test('FAQ assistant answers questions locally and offers direct contact', async ({ page }) => {
-  await page.goto('/');
+  await page.goto(inBase('/'));
 
   const toggle = page.getByRole('button', { name: 'Poser une question à l’assistant serrurerie' });
   const panel = page.getByRole('dialog', { name: 'Assistant serrurerie' });
@@ -163,7 +166,7 @@ test('FAQ assistant answers questions locally and offers direct contact', async 
 
 test('FAQ assistant handles every supported topic and uncertain questions safely', async ({ page }) => {
   await page.addInitScript(() => localStorage.removeItem('analytics-consent'));
-  await page.goto('/');
+  await page.goto(inBase('/'));
   await expect(page.locator('#analytics-consent')).toBeVisible();
   await page.getByRole('button', { name: 'Continuer sans accepter' }).click();
   await page.getByRole('button', { name: 'Poser une question à l’assistant serrurerie' }).click();
@@ -270,7 +273,7 @@ test('FAQ assistant handles every supported topic and uncertain questions safely
 test('FAQ assistant suggestions, close button, and mobile positioning work', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 640 });
   await page.addInitScript(() => localStorage.removeItem('analytics-consent'));
-  await page.goto('/');
+  await page.goto(inBase('/'));
   await expect(page.locator('#analytics-consent')).toBeVisible();
   await page.getByRole('button', { name: 'Continuer sans accepter' }).click();
 
