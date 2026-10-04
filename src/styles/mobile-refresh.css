@@ -266,24 +266,208 @@
     height: clamp(12rem, 56vw, 20rem);
     margin-top: 0.5rem;
   }
+
+  /* Give the first screen a calmer, more intentional rhythm on phones. */
+  #top {
+    background:
+      radial-gradient(ellipse at 88% 28%, rgb(199 117 83 / 9%), transparent 42%),
+      #fcfcfc;
+  }
+
+  .site-header {
+    min-height: 3.65rem;
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+
+  .site-header #logo svg {
+    max-height: 1.65rem;
+  }
+
+  #hero-step-1 {
+    padding-top: 1.35rem;
+    padding-bottom: 1.5rem;
+  }
+
+  #hero-step-1 h1 {
+    max-width: 12ch;
+    margin-bottom: 1rem;
+    font-size: clamp(2.15rem, 10vw, 3.1rem);
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  #hero-step-1 p {
+    max-width: 34rem;
+    margin-bottom: 1.25rem;
+    color: #55514e;
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  #hero-step-1 a[href="#contact"] {
+    min-height: 3.25rem;
+    align-items: center;
+    border-radius: 999px;
+    background: #a75033;
+    border-color: #a75033;
+    box-shadow: 0 8px 20px rgb(167 80 51 / 18%);
+  }
+
+  #hero-step-1 a[href="#contact"] [data-phone-action] {
+    font-size: 0.9rem;
+  }
+
+  .hero-visual {
+    width: calc(100% - 2.5rem);
+    height: clamp(195px, 58vw, 265px);
+    border: 0;
+    border-radius: 1.15rem;
+    box-shadow: 0 16px 38px rgb(17 17 17 / 15%);
+  }
+
+  .faq-assistant-toggle {
+    border: 2px solid #fcfcfc;
+    background: #1a1a1a;
+    box-shadow: 0 8px 24px rgb(17 17 17 / 24%);
+  }
+
+  .service-page {
+    padding-bottom: calc(6.25rem + env(safe-area-inset-bottom));
+    background: #fbfaf8;
+  }
+
+  .service-header {
+    position: sticky;
+    z-index: 90;
+    top: env(safe-area-inset-top, 0px);
+    display: flex;
+    min-height: 4.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.55rem 1rem;
+    border-color: rgb(17 17 17 / 8%);
+    background: rgb(251 250 248 / 94%);
+    box-shadow: 0 3px 16px rgb(17 17 17 / 5%);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .service-brand {
+    font-size: 0.85rem;
+  }
+
+  .service-brand span {
+    margin-top: 0.1rem;
+    font-size: 0.58rem;
+  }
+
+  .service-header nav {
+    display: contents;
+  }
+
+  .service-header nav a:not(.service-header-phone) {
+    display: none;
+  }
+
+  .service-header nav .service-header-phone {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: #a75033;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .service-breadcrumb {
+    padding-top: 1rem;
+    font-size: 0.72rem;
+  }
+
+  .service-landing-hero,
+  .service-pricing-section,
+  .service-content-grid,
+  .service-steps-section,
+  .service-faq,
+  .service-related {
+    padding-top: 2.6rem;
+    padding-bottom: 2.6rem;
+  }
+
+  .service-landing-hero {
+    gap: 1.4rem;
+  }
+
+  .service-landing-hero h1 {
+    max-width: 14ch;
+    margin-bottom: 0.9rem;
+    font-size: clamp(2.25rem, 10.5vw, 3.2rem);
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+
+  .service-lead {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .service-primary-cta {
+    width: 100%;
+    min-height: 3.4rem;
+    border-radius: 999px;
+    background: #a75033;
+  }
+
+  .service-landing-hero > img {
+    border-radius: 1.1rem;
+    box-shadow: 0 14px 34px rgb(17 17 17 / 11%);
+  }
+
+  .price-reference-card,
+  .service-price-panel {
+    border-color: #e8e3dc;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgb(17 17 17 / 4%);
+  }
+
+  .service-related a {
+    min-height: 3.75rem;
+    border-radius: 0.75rem;
+    background: #fff;
+  }
+
+  .service-bottom-cta {
+    border-radius: 1rem;
+  }
+
+  .service-mobile-cta {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
+    justify-content: center;
+    border: 1px solid #a75033;
+    background: #a75033;
+    box-shadow: 0 10px 28px rgb(17 17 17 / 20%);
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
   .service-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.7rem;
-    padding: 0.85rem 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    padding: 0.55rem 0.8rem;
   }
 
   .service-header nav {
-    width: 100%;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: 0.5rem;
-    overflow-x: auto;
-    font-size: 0.72rem;
-    white-space: nowrap;
+    width: auto;
+    overflow: visible;
   }
 
   .service-header nav a:nth-child(1),
