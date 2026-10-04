@@ -443,8 +443,34 @@ body.mobile-menu-open {
 }
 
 .faq-assistant-avatar svg {
-  width: 1.4rem;
-  height: 1.4rem;
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.faq-assistant-message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.faq-assistant-message-avatar {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(200 117 83 / 28%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 24%, #fff0da 0, #e8a77e 62%, #b65d3d 100%);
+  box-shadow: inset 0 1px 3px rgb(255 255 255 / 65%), 0 2px 5px rgb(17 17 17 / 12%);
+}
+
+.faq-assistant-message-avatar svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .faq-assistant-header h2 {
@@ -499,7 +525,6 @@ body.mobile-menu-open {
 }
 
 .faq-assistant-message--bot {
-  align-self: flex-start;
   border: 1px solid #e7e5e4;
   border-bottom-left-radius: 0.25rem;
   background: #f5f3ef;
@@ -728,7 +753,7 @@ body.mobile-menu-open {
 .service-shortcuts {
   display: grid;
   width: min(100%, 1040px);
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.75rem;
   margin: 2.5rem auto 1rem;
 }
@@ -1335,6 +1360,7 @@ section a:focus-visible {
 }
 
 .service-landing-hero,
+.service-pricing-section,
 .service-content-grid,
 .service-steps-section,
 .service-faq,
@@ -1446,6 +1472,78 @@ section a:focus-visible {
 .service-content-grid > div > p:not(.service-eyebrow) {
   max-width: 43rem;
   margin: 1rem 0;
+}
+
+.service-pricing-section {
+  display: grid;
+  gap: 2rem;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid #e7e5e4;
+}
+
+.service-pricing-section > div:first-child {
+  max-width: 52rem;
+}
+
+.service-pricing-section > div:first-child > p:not(.service-eyebrow) {
+  color: var(--service-muted);
+  line-height: 1.7;
+}
+
+.price-reference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.price-reference-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid #e7e5e4;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.price-reference-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.price-reference-card p {
+  margin: 0.5rem 0;
+  line-height: 1.65;
+}
+
+.price-reference-card .price-reference-amount {
+  color: var(--service-ink);
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.price-reference-card .price-reference-caveat {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  color: var(--service-muted);
+  font-size: 0.86rem;
+}
+
+.price-reference-card a {
+  margin-top: 0.75rem;
+  color: var(--service-ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.price-reference-date {
+  margin: 0;
+  color: var(--service-muted);
+  font-size: 0.82rem;
 }
 
 .service-checklist {
@@ -1650,6 +1748,10 @@ section a:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .price-reference-grid {
+    grid-template-columns: 1fr;
+  }
+
   .service-landing-hero > img {
     max-height: 22rem;
     grid-row: 1;
@@ -1712,6 +1814,7 @@ section a:focus-visible {
   }
 
   .service-landing-hero,
+  .service-pricing-section,
   .service-content-grid,
   .service-steps-section,
   .service-faq,

@@ -5,6 +5,7 @@ Site vitrine statique Astro pour une entreprise de serrurerie et de dépannage �
 ## Stack
 
 - Astro (génération statique)
+- Tailwind CSS 4 (compilé au build, sans moteur Tailwind côté navigateur)
 - CSS
 - JavaScript
 - Alpine.js
@@ -62,6 +63,7 @@ Le fichier `CNAME` est déjà configuré pour le domaine personnalisé :
 - `SEARCH-CONSOLE.md` : procédure de vérification, soumission et contrôle après publication
 - `ouverture-porte-lyon/`, `serrure-porte-blindee-lyon/`, `volet-roulant-lyon/`, `vitrerie-lyon/` : pages informatives dédiées aux prestations
 - `zone-intervention-serrurier-lyon/` : secteurs et communes cités, avec confirmation de disponibilité par téléphone
+- `prix-serrurier-lyon/` : repères de prix publiés par des tiers, sourcés et datés ; ils ne représentent pas les tarifs de l'entreprise
 - `scripts/check-seo.py` : vérification de la sortie de production ; ajouter `--live https://xn--serrurierdpannagerapide-kcc.fr/` pour contrôler la version publiée et le sitemap
 
 Les pages villes quasi identiques ne sont pas créées : ne publiez des pages locales supplémentaires que si elles contiennent de vraies informations propres à chaque secteur. Ne soumettez pas le sitemap statique avant que cette version soit effectivement déployée sur le domaine. Le contrôle en ligne échoue tant que le domaine sert encore une autre version du site.

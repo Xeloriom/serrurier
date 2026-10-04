@@ -7,6 +7,7 @@ const pages = [
   { path: '/volet-roulant-lyon/', title: /volet roulant/i },
   { path: '/vitrerie-lyon/', title: /vitrerie/i },
   { path: '/zone-intervention-serrurier-lyon/', title: /zone d'intervention serrurier/i },
+  { path: '/prix-serrurier-lyon/', title: /prix serrurier à Lyon/i },
 ];
 
 for (const { path, title } of pages) {
@@ -63,6 +64,14 @@ test('crawler discovery files list all canonical public pages', async ({ request
   }
 });
 
+test('production CSS is bundled and does not load the Tailwind browser compiler', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('link[rel="stylesheet"][href*="/_astro/"]')).toHaveCount(1);
+  await expect(page.locator('script[src*="tailwind-browser"]')).toHaveCount(0);
+  await expect.poll(() => page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily))
+    .toContain('Inter');
+});
+
 test('homepage menu and quote form work without browser errors', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const errors = [];
@@ -84,6 +93,22 @@ test('homepage menu and quote form work without browser errors', async ({ page }
   });
   await expect(page.locator('#quote-form-status')).toContainText('Indiquez votre nom');
   expect(errors, 'Browser console errors during homepage interactions').toEqual([]);
+});
+
+test('pricing guide cites dated competitor prices and separates them from our quote', async ({ page }) => {
+  await page.goto('/prix-serrurier-lyon/');
+
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Prix d’un serrurier à Lyon : comparer un devis',
+  );
+  await expect(page.locator('main')).toContainText('ne sont pas les tarifs de Serrurier Dépannage Rapide');
+  await expect(page.locator('main')).toContainText('4 octobre 2026');
+  await expect(page.locator('main')).toContainText('110 à 140 € TTC');
+  await expect(page.locator('main')).toContainText('65 € HT + 65 € HT/heure');
+  await expect(page.locator('main').getByRole('link', { name: 'Voir la page serrurier à Lyon ↗' }))
+    .toHaveAttribute('href', 'https://www.mesdepanneurs.fr/serrurier/lyon');
+  await expect(page.locator('main').getByRole('link', { name: /Voir le tarif de changement de serrure/ }))
+    .toHaveAttribute('href', 'https://hop-serrurier.fr/tarifs-changement-de-serrure/');
 });
 
 test('mobile layout fits narrow screens and updates hero images while scrolling', async ({ page }) => {
@@ -126,7 +151,8 @@ test('FAQ assistant answers questions locally and offers direct contact', async 
 
   await page.getByLabel('Votre question').fill('Combien coûte une intervention ?');
   await page.getByRole('button', { name: 'Envoyer la question' }).click();
-  await expect(panel).toContainText('Le site ne publie pas de tarif');
+  await expect(panel).toContainText('Le site ne publie pas ses tarifs');
+  await expect(panel.locator('.faq-assistant-message-avatar svg use')).toHaveCount(3);
   await expect(panel.getByRole('link', { name: 'Appeler' })).toHaveAttribute('href', 'tel:+33778952440');
   await expect(panel.getByRole('link', { name: 'Écrire sur WhatsApp' })).toHaveAttribute('href', /wa\.me\/33778952440/);
 
@@ -149,15 +175,47 @@ test('FAQ assistant handles every supported topic and uncertain questions safely
       answer: 'Évitez de forcer la porte ou la serrure',
     },
     {
+      question: 'Bonjour, j’ai oublié mes clés chez moi et je suis dehors…',
+      answer: 'Évitez de forcer la porte ou la serrure',
+    },
+    {
       question: 'Ma porte est verrouillée, que faire ?',
       answer: 'Évitez de forcer la porte ou la serrure',
     },
     {
+      question: 'Ma serrure tourne dans le vide, vous pouvez aider ?',
+      answer: 'Évitez de forcer la porte ou la serrure',
+    },
+    {
       question: 'Combien coûte une intervention ?',
-      answer: 'Le site ne publie pas de tarif',
+      answer: 'Le site ne publie pas ses tarifs',
+    },
+    {
+      question: 'C’est combien pour ouvrir une porte claquée ?',
+      answer: 'Le site ne publie pas ses tarifs',
+    },
+    {
+      question: 'Vous faites un devis gratuit ?',
+      answer: 'ne précise pas si le devis est gratuit',
+    },
+    {
+      question: 'Vous acceptez la carte bancaire ?',
+      answer: 'ne précise pas les moyens de paiement acceptés',
+    },
+    {
+      question: 'Combien de temps avant que vous arriviez ?',
+      answer: 'Le délai dépend de votre commune',
     },
     {
       question: 'Vous êtes disponibles maintenant ?',
+      answer: 'Le service est annoncé 24h/24 et 7j/7',
+    },
+    {
+      question: 'Vous travaillez le dimanche soir ?',
+      answer: 'Le service est annoncé 24h/24 et 7j/7',
+    },
+    {
+      question: 'Vous intervenez à Lyon ce soir ?',
       answer: 'Le service est annoncé 24h/24 et 7j/7',
     },
     {
@@ -181,8 +239,16 @@ test('FAQ assistant handles every supported topic and uncertain questions safely
       answer: 'Vous pouvez appeler le serrurier ou lui écrire sur WhatsApp',
     },
     {
+      question: 'Bonjour',
+      answer: 'Je peux vous renseigner sur les dépannages',
+    },
+    {
+      question: 'Merci beaucoup',
+      answer: 'Avec plaisir',
+    },
+    {
       question: 'Pouvez-vous garantir une ouverture sans dégât et un délai de 10 minutes ?',
-      answer: 'Je n’ai pas trouvé de réponse fiable',
+      answer: 'Le délai dépend de votre commune',
     },
     {
       question: '<img src=x onerror=alert(1)>',

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "../../style.css";
+
+@source "../pages";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.text-mega {
+  font-size: 21vw;
+  line-height: 0.75;
+  letter-spacing: -0.04em;
+}

@@ -24,7 +24,7 @@ Le jeton de vérification est propre à votre compte et doit être généré dan
 
 ## Envoyer le sitemap et contrôler l'indexation
 
-Après déploiement, ouvrir **Indexation → Sitemaps**, saisir `sitemap.xml` (ou le chemin réellement annoncé par le `robots.txt` déployé), puis envoyer. Le sitemap comprend l'accueil, quatre pages de services et une page qui décrit la zone desservie. Ne soumettez pas le sitemap statique de ce dépôt tant que le site WordPress actuel le sert encore.
+Après déploiement, ouvrir **Indexation → Sitemaps**, saisir `sitemap.xml` (ou le chemin réellement annoncé par le `robots.txt` déployé), puis envoyer. Le sitemap comprend l'accueil, quatre pages de services, une page qui décrit la zone desservie et un guide des prix et devis. Ne soumettez pas le sitemap statique de ce dépôt tant que le site WordPress actuel le sert encore.
 
 Ensuite, inspecter `https://xn--serrurierdpannagerapide-kcc.fr/` avec **Inspection de l'URL** :
 

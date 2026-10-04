@@ -464,29 +464,65 @@ function setupFaqAssistant() {
     const message = document.createElement('p');
     message.className = `faq-assistant-message faq-assistant-message--${sender}`;
     message.textContent = text;
-    messages.append(message);
+    if (sender === 'bot') {
+      const row = document.createElement('div');
+      row.className = 'faq-assistant-message-row';
+      const avatar = document.createElement('span');
+      avatar.className = 'faq-assistant-message-avatar';
+      avatar.setAttribute('aria-hidden', 'true');
+      const face = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      face.setAttribute('viewBox', '0 0 48 48');
+      const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', '#i-locksmith-mascot');
+      face.append(use);
+      avatar.append(face);
+      row.append(avatar, message);
+      messages.append(row);
+    } else {
+      messages.append(message);
+    }
     messages.scrollTop = messages.scrollHeight;
   };
 
   const getAnswer = (question) => {
-    const normalized = question.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const normalized = question
+      .toLocaleLowerCase('fr')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/['’`]/g, ' ')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim()
+      .replace(/\s+/g, ' ');
+    const matches = (pattern) => pattern.test(normalized);
 
-    if (/prix|tarif|combien|cout|devis/.test(normalized)) {
-      return 'Le site ne publie pas de tarif : le prix dépend de la situation. Appelez pour expliquer le problème et demander les modalités d’un devis avant toute intervention.';
+    if (matches(/^(bonjour|bonsoir|salut|coucou|hello)( tout le monde)?$/)) {
+      return 'Bonjour ! Je peux vous renseigner sur les dépannages, la zone d’intervention ou les modalités de contact. Que souhaitez-vous savoir ?';
     }
-    if (/claqu|bloqu|verrouill|porte fermee|enferme|serrure (?:coincee|ne tourne plus)|cle[s]? (?:perdue|perdues|cassee|cassees|oubliee|oubliees)|(?:perdu|perdue|perdus|perdues|casse|cassee|casses|cassees) .*cle|ne s ouvre plus/.test(normalized)) {
-      return 'Évitez de forcer la porte ou la serrure, cela pourrait aggraver les dégâts. Décrivez si la porte est claquée ou verrouillée et précisez votre commune au serrurier.';
+    if (matches(/^(merci|merci beaucoup|super merci|ok merci|d accord merci)$/)) {
+      return 'Avec plaisir ! Pour toute question sur votre situation, vous pouvez appeler le serrurier ou lui écrire sur WhatsApp.';
     }
-    if (/disponib|maintenant|horaires?|nuit|week.?end|urgence|24.?h|ouvert(?:e|s)? (?:maintenant|aujourd|ce soir)/.test(normalized)) {
+    if (matches(/\b(combien de temps|quel delai|delai|en combien de temps|quelle heure|a quelle heure|quand pouvez vous venir|quand arrivez vous|temps d attente|rapidement|vite)\b/)) {
+      return 'Le délai dépend de votre commune, de la disponibilité et du dépannage demandé. Appelez directement pour vérifier si une intervention est possible et dans quel délai.';
+    }
+    if (matches(/\b(paiement|payer par|moyens? de paiement|carte bancaire|carte bleue|cb|cheque|especes|virement)\b|accepte\w* .*carte|prenez.*carte/)) {
+      return 'Le site ne précise pas les moyens de paiement acceptés. Appelez le serrurier pour vérifier ce point avant l’intervention.';
+    }
+    if (matches(/\b(prix|tarif|combien|coute|cout|budget|factur\w*|payer|cher|gratuit\w*|devis)\b/)) {
+      return 'Le site ne publie pas ses tarifs et ne précise pas si le devis est gratuit. Appelez pour décrire votre situation et demander le coût total ainsi que les conditions avant toute intervention.';
+    }
+    if (matches(/\b(claqu\w*|bloqu\w*|verrouill\w*|porte fermee|enferm\w*|serrure coincee|serrure cassee|serrure ne tourne plus|tourne dans le vide|cle (est )?(perdue|cassee|oubliee|restee|coincee)|perdu(e|es)? (mes )?cles|casse(e|es)? (ma )?cle|oublie(e|es)? (mes )?cles|ne s ouvre plus)\b/)) {
+      return 'Évitez de forcer la porte ou la serrure, cela pourrait aggraver les dégâts. Appelez en décrivant ce qui est bloqué, si la porte est claquée ou verrouillée, et votre commune ; le serrurier pourra vous indiquer les solutions possibles.';
+    }
+    if (matches(/\b(disponib\w*|maintenant|horaires?|nuit|soir|dimanche|week end|weekend|urgence|24 ?h|24 7|ouvert(e|s)? (maintenant|aujourd hui|ce soir)|intervenir (maintenant|aujourd hui|ce soir))\b/)) {
       return 'Le service est annoncé 24h/24 et 7j/7. La disponibilité et le délai dépendent de votre localisation et du dépannage : appelez directement pour les confirmer.';
     }
-    if (/commune|ville|zone|interven|adresse|secteur|deplac|venez|desserv|autour de|villeurbanne|vaulx|venissieux|caluire|bron|decines/.test(normalized)) {
+    if (matches(/\b(commune|ville|zone|interven|adresse|secteur|deplac|venez|venir|passez|desserv|autour de|lyon|meyzieu|genas|jonage|cremieu|bourgoin|tignieu|pont de cheruy|villeurbanne|vaulx|venissieux|caluire|bron|decines)\b/)) {
       return 'Le site cite Lyon, Meyzieu, Genas, Jonage, Crémieu, Bourgoin-Jallieu, Tignieu-Jameyzieu, Pont-de-Chéruy et les communes voisines. Cette liste ne garantit pas la prise en charge : appelez pour confirmer votre adresse.';
     }
-    if (/service|prestation|serrur|volet|vitr|blind|installation|repar|ouvertures? de porte|ouvrir (?:une|ma) porte/.test(normalized)) {
-      return 'Les prestations présentées sont le dépannage d’urgence, l’ouverture et la réparation de serrure, les portes blindées, les volets roulants et la vitrerie.';
+    if (matches(/\b(services?|prestation\w*|serrur\w*|volet\w*|vitr\w*|blind\w*|install\w*|repar\w*|ouvertures? de porte|ouvrir (une|ma) porte)\b/)) {
+      return 'Les prestations présentées sont le dépannage d’urgence, l’ouverture et la réparation de serrure, les portes blindées, les volets roulants et la vitrerie. Pour confirmer qu’une solution convient à votre cas, appelez et décrivez le problème.';
     }
-    if (/contact|appeler|telephone|whatsapp|parler/.test(normalized)) {
+    if (matches(/\b(contact\w*|appeler|telephone|numero|whatsapp|parler|joindre|ecrire)\b/)) {
       return 'Vous pouvez appeler le serrurier ou lui écrire sur WhatsApp avec les boutons ci-dessous. Pour une urgence, l’appel est le moyen le plus direct.';
     }
     return 'Je n’ai pas trouvé de réponse fiable dans les informations du site. Pour éviter de vous induire en erreur, appelez le serrurier ou écrivez-lui sur WhatsApp.';
